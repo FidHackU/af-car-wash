@@ -1,6 +1,7 @@
 # af-car-wash
 AF Car Wash
 Unlinked/Independent(no href) pages for now
+BookingHistoryOwner.html
 DetailsPageOwner.html
 EditBookingOwner.html
 ModifyBookingFormOwner.html
