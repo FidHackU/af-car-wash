@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <title>Services</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <link rel="icon" type="image/x-icon" href="C:/Users/shereen/OneDrive/Documents/af car wash/car-wash.png">
+        <link rel="icon" type="image/x-icon" href="image\car-wash.png">
         <meta content="Free Website Template" name="keywords">
         <meta content="Free Website Template" name="description">
 
@@ -37,12 +37,12 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                             <div class="navbar-nav mr-auto">
-                                <a href="afcarwash.html" class="nav-item nav-link">Home</a>
-                                <a href="about.html" class="nav-item nav-link">About</a>
-                                <a href="service.html" class="nav-item nav-link active">Service</a>
-                                <a href="price.html" class="nav-item nav-link">Price</a>
-                                <a href="booking2.html" class="nav-item nav-link">Booking</a>
-                                <a href="location.html" class="nav-item nav-link">Location</a>
+                                <a href="afcarwash.php" class="nav-item nav-link">Home</a>
+                                <a href="about.php" class="nav-item nav-link">About</a>
+                                <a href="service.php" class="nav-item nav-link active">Service</a>
+                                <a href="price.php" class="nav-item nav-link">Price</a>
+                                <a href="booking2.php" class="nav-item nav-link">Booking</a>
+                                <a href="location.php" class="nav-item nav-link">Location</a>
                             </div>
 
                     </div>
@@ -59,8 +59,8 @@
                         <h2>AF Car Care & Triple (A) Carwash Service</h2>
                     </div>
                     <div class="col-12">
-                        <a href="afcarwash.html">Home</a>
-                        <a href="service.html">Service</a>
+                        <a href="afcarwash.php">Home</a>
+                        <a href="service.php">Service</a>
                     </div>
                 </div>
             </div>
@@ -201,11 +201,11 @@
                     <div class="col-lg-6 col-md-8">
                         <div class="footer-link">
                             <h2>Find out about us!</h2>
-                            <a href="about.html">About Us</a>
-                            <a href="location.html">Contact Us</a>
-                            <a href="service.html">Our Service</a>
-                            <a href="location.html">Location</a>
-                            <a href="price.html">Our Price</a>
+                            <a href="about.php">About Us</a>
+                            <a href="location.php">Contact Us</a>
+                            <a href="service.php">Our Service</a>
+                            <a href="location.php">Location</a>
+                            <a href="price.php">Our Price</a>
                         </div>
                     </div>
                 </div>

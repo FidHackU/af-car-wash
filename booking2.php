@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Customer Booking</title>
-    <link rel="icon" type="image/x-icon" href="C:/Users/shereen/OneDrive/Documents/af car wash/car-wash.png">
+    <link rel="icon" type="image/x-icon" href="image\car-wash.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <!-- Google Font -->
@@ -34,12 +34,12 @@
 
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto">
-                        <a href="afcarwash.html" class="nav-item nav-link">Home</a>
-                        <a href="about.html" class="nav-item nav-link">About</a>
-                        <a href="service.html" class="nav-item nav-link">Service</a>
-                        <a href="price.html" class="nav-item nav-link">Price</a>
-                        <a href="booking2.html" class="nav-item nav-link active">Booking</a>
-                        <a href="location.html" class="nav-item nav-link">Location</a>
+                        <a href="afcarwash.php" class="nav-item nav-link">Home</a>
+                        <a href="about.php" class="nav-item nav-link">About</a>
+                        <a href="service.php" class="nav-item nav-link">Service</a>
+                        <a href="price.php" class="nav-item nav-link">Price</a>
+                        <a href="booking2.php" class="nav-item nav-link active">Booking</a>
+                        <a href="location.php" class="nav-item nav-link">Location</a>
                     </div>
                 </div>
             </nav>
@@ -55,8 +55,8 @@
                     <h2>Booking Services</h2>
                 </div>
                 <div class="col-12">
-                    <a href="afcarwash.html">Home</a>
-                    <a href="booking2.html">Booking</a>
+                    <a href="afcarwash.php">Home</a>
+                    <a href="booking2.php">Booking</a>
                 </div>
             </div>
         </div>
@@ -169,9 +169,9 @@
                 (selectedHour > 8 || (selectedHour === 8 && selectedMinutes >= 0)) &&
                 (selectedHour < 18 || (selectedHour === 18 && selectedMinutes <= 0))
             ) {
-                // Redirect to bookingconfirmation.html after successful booking
+                // Redirect to bookingconfirmation.php after successful booking
                 window.location.href =
-                    "bookingconfirmation1.html?serviceType=" +
+                    "bookingconfirmation1.php?serviceType=" +
                     encodeURIComponent(serviceType) +
                     "&carType=" +
                     encodeURIComponent(carType) +

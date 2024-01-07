@@ -6,7 +6,7 @@
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="Free Website Template" name="keywords">
         <meta content="Free Website Template" name="description">
-        <link rel="icon" type="image/x-icon" href="C:/Users/shereen/OneDrive/Documents/af car wash/car-wash.png">
+        <link rel="icon" type="image/x-icon" href="image\car-wash.png">
 
         <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon">
@@ -37,12 +37,12 @@
 
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto">
-                            <a href="afcarwash.html" class="nav-item nav-link">Home</a>
-                            <a href="about.html" class="nav-item nav-link">About</a>
-                            <a href="service.html" class="nav-item nav-link">Service</a>
-                            <a href="price.html" class="nav-item nav-link">Price</a>
-                            <a href="booking2.html" class="nav-item nav-link">Booking</a>
-                            <a href="location.html" class="nav-item nav-link active">Location</a>
+                            <a href="afcarwash.php" class="nav-item nav-link">Home</a>
+                            <a href="about.php" class="nav-item nav-link">About</a>
+                            <a href="service.php" class="nav-item nav-link">Service</a>
+                            <a href="price.php" class="nav-item nav-link">Price</a>
+                            <a href="booking2.php" class="nav-item nav-link">Booking</a>
+                            <a href="location.php" class="nav-item nav-link active">Location</a>
                         </div>        
                 </nav>
             </div>
@@ -58,8 +58,8 @@
                         <h2>Our Location</h2>
                     </div>
                     <div class="col-12">
-                        <a href="afcarwash.html">Home</a>
-                        <a href="location.html">Location</a>
+                        <a href="afcarwash.php">Home</a>
+                        <a href="location.php">Location</a>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="about-img">
-                            <img src="1.jpg" alt="Image">
+                            <img src="image\1.jpg" alt="Image">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -124,11 +124,11 @@
                     <div class="col-lg-6 col-md-8">
                         <div class="footer-link">
                             <h2>Find out about us!</h2>
-                            <a href="about.html">About Us</a>
+                            <a href="about.php">About Us</a>
                             <a href="#location">Contact Us</a>
-                            <a href="service.html">Our Service</a>
+                            <a href="service.php">Our Service</a>
                             <a href="#location">Location</a>
-                            <a href="price.html">Our Price</a>
+                            <a href="price.php">Our Price</a>
                         </div>
                     </div>
                 </div>

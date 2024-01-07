@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Login</title>
-        <link rel="icon" type="image/x-icon" href="C:/Users/shereen/OneDrive/Documents/af car wash/car-wash.png">
+        <link rel="icon" type="image/x-icon" href="image\car-wash.png">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <!-- Google Font -->
         <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"> 
@@ -33,7 +33,7 @@
                     <button style="width:50%; margin-right: 10px;">Employee</button>
                     <button style="width:50%">Manager</button>
                     </div>
-                    <p>Log In as <span><a href="Login.php">Customer</a></span><p></p>
+                    <p>Log In as <span><a href="login.php">Customer</a></span><p></p>
                 </form>
             </div>
             <div class="overlay-container" >
@@ -41,7 +41,7 @@
                     <div class="overlay-panel overlay-right" style="background-color: #5972FE;">
                         <h1>Hello!</h1>
                         <p>Enter your login details to manage bookings</p>
-                        <button><a href="afcarwash.html" style="color:white;">Back Home</a></button>
+                        <button><a href="afcarwash.php" style="color:white;">Back Home</a></button>
                     </div>
                 </div>
             </div>
@@ -71,8 +71,8 @@ function validatesignIn() {
 
     // For demonstration purposes, check if username and password are not empty
     if (username !== '' && password !== '') {
-     // Redirect to the desired page (replace 'afcarwash.html' with your actual login page)
-         window.location.href = 'afcarwash.html';
+     // Redirect to the desired page (replace 'afcarwash.php' with your actual login page)
+         window.location.href = 'afcarwash.php';
             } else {
                 alert('Please enter both username and password.');
             }
@@ -81,7 +81,7 @@ function validatesignIn() {
 function myFunction() {
     // Your code for handling the dashboard display or other actions after a successful login
     console.log('Successful login! Redirecting to the dashboard...');
-    window.location.href = 'dashboard1.html';
+    window.location.href = 'dashboard1.php';
 }
 
 </script>

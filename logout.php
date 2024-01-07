@@ -55,7 +55,7 @@
         // You can add additional logout logic here, such as clearing user session
         alert('Logged out successfully!');
         // Redirect to the login page or any other desired page
-        window.location.href = 'afcarwash.html';
+        window.location.href = 'afcarwash.php';
     }
 </script>
 
