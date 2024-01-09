@@ -1,4 +1,4 @@
-<?php
+<?php session_start();
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Assuming you have a database connection code here
@@ -20,6 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (password_verify($password, $hashedPassword)) {
             // Successful login
             echo json_encode(['status' => 'success', 'message' => 'Login successful']);
+            // Set session variables on successful login
+            $_SESSION['loggedin'] = true;
+            $_SESSION['username'] = $username;
             header("location: afcarwash.php");
         } else {
             // Incorrect password

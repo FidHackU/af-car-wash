@@ -1,3 +1,6 @@
+<?php
+session_start(); // Start the session to access it
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,6 +57,7 @@
     function logout() {
         // You can add additional logout logic here, such as clearing user session
         alert('Logged out successfully!');
+        <?php session_destroy(); // Destroy the session ?>
         // Redirect to the login page or any other desired page
         window.location.href = 'afcarwash.php';
     }

@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -32,19 +33,27 @@
                     <a href="location.php" class="nav-item nav-link">Location</a>
                 </div>
                 
-            <!-- Right-aligned Login link with Dropdown -->
-            <div class="navbar-nav">
-                 <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Login
-                    </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="login.php" id="memberLogin">Member</a>
-                        <a class="dropdown-item" href="loginAdmin.php" id="adminLogin">Admin</a>
-                            <div class="dropdown-divider"></div>
-                    </div>
-                </div>
-            </div>
+                <!-- Changes the Login to Logout if session is set -->
+                <?php
+                    if (isset($_SESSION['username'])) {
+                        // If the user is logged in, display 'Logout'
+                        echo '<div class="navbar-nav"><a href="logout.php" class="nav-item nav-link">Logout</a></div>';
+                    } else {
+                        //Right-aligned Login link with Dropdown
+                        echo '<div class="navbar-nav">
+                                <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Login
+                                </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="login.php" id="memberLogin">Member</a>
+                                    <a class="dropdown-item" href="loginAdmin.php" id="adminLogin">Admin</a>
+                                        <div class="dropdown-divider"></div>
+                                </div>
+                            </div>
+                        </div>';
+                    }
+                ?>
         </div>
     </nav>
     </div>
