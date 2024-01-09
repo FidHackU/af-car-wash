@@ -1,3 +1,4 @@
+<?php session_start()?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,7 +57,7 @@
 <!-- Booking Form Start -->
 <div class="container mt-8">
     <div class="booking-form">
-        <form id="carWashForm">
+        <form id="carWashForm" action="process_booking2.php" method="POST">
             <div class="form-group">
                 <label for="telephoneNumber">Telephone Number:</label>
                 <input type="text" class="form-control" id="telephoneNumber" name="telephoneNumber">
@@ -114,7 +115,13 @@
 
             <br><br>
             <div class="form-group text-center">
-                <button type="button" class="btn btn-primary" onclick="validateBooking()">Book Now</button>
+                <button <?php if (isset($_SESSION['username'])) {
+                        // If the user is logged in, can submit
+                        echo 'type=submit onclick="validateBooking()"';
+                    } else {
+                        // If user is logged out will go to login page
+                        echo 'type=button onclick="window.location.href=\'login.php\'"';
+                    } ?> class="btn btn-primary" >Book Now</button>
             </div>
 
         </form>
