@@ -1,11 +1,13 @@
 <?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "afcarwash";
 
-$con = mysqli_connect("localhost","root","","afcarwash");
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-//check connection
-if(mysqli_connect_errno())
-{
-	echo "Failed to connect to MySQL:" . mysqli_connect_errno();
+//Check error
+if ($conn->connect_error) {
+	die("Connection failed: " . $conn->connect_error);
 }
 
-?>

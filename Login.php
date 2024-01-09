@@ -24,21 +24,21 @@
 
         <div class="container" id="container">
             <div class="form-container sign-up-container">
-                <form action="#">
+                <form action="process_signup.php" method="POST" >
                     <h1 style="color: black;">Create account to stay connected!</h1>
-                    <input type="text" placeholder="Name" />
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
-                    <button>Sign Up</button>
+                    <input type="text" placeholder="Name" name="username"/>
+                    <input type="email" placeholder="Email" name="email" />
+                    <input type="password" placeholder="Password" name="password" />
+                    <button type="submit">Sign Up</button>
                 </form>
             </div>
             <div class="form-container sign-in-container">
-                <form action="#">
+                <form action="process_login.php" method="POST">
                     <h1 style="color: black;">Welcome!</h1>
                     <input type="text" placeholder="Username" name="username" />
-                    <input type="password" placeholder="Password" />
+                    <input type="password" placeholder="Password" name="password" />
                     <a href="forgotCust.php">Forgot your password?</a>
-                    <button>Login</button>
+                    <button type="submit">Login</button>
                     <p>Log In as <span><a href="loginAdmin.php">Administrator</a></span><p></p>
                 </form>
             </div>

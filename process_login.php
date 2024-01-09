@@ -2,40 +2,34 @@
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Assuming you have a database connection code here
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "afcarwash.db";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    include_once 'dbConnection.php';
 
     // Get username and password from the form
-    $enteredUsername = $_POST['username'];
-    $enteredPassword = $_POST['password'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
     // Query the database to check the credentials
-    $sql = "SELECT * FROM users WHERE username='$enteredUsername'";
+    $sql = "SELECT * FROM customer WHERE username= '$username'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $hashedPassword = $row['password'];
 
-        // Verify the entered password against the hashed password
-        if (password_verify($enteredPassword, $hashedPassword)) {
+        // Verify the entered password against the hashed password (use password_verify only when we have the hashed password done)
+        if (password_verify($password, $hashedPassword)) {
             // Successful login
             echo json_encode(['status' => 'success', 'message' => 'Login successful']);
+            header("location: afcarwash.php");
         } else {
             // Incorrect password
             echo json_encode(['status' => 'error', 'message' => 'Incorrect password']);
+            header("location: login.php");
         }
     } else {
         // User not found
         echo json_encode(['status' => 'error', 'message' => 'User not found']);
+        header("location: login.php");
     }
 
     $conn->close();
@@ -43,5 +37,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // If the form is not submitted, return an error
     echo json_encode(['status' => 'error', 'message' => 'Invalid request']);
 }
-?>
+
 
