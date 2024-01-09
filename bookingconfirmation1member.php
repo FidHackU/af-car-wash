@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,10 +65,10 @@
         <!-- Display Booking Details -->
         <div class="row mt-4">
             <div class="col-12">
-                <p><strong>Service Type:</strong> </p>
-                <p><strong>Car Type:</strong> </p>
-                <p><strong>Date:</strong> </p>
-                <p><strong>Time:</strong> </p>
+                <p><strong>Service Type:</strong> <?php echo $_SESSION['serviceType']; ?></p>
+                <p><strong>Car Type:</strong> <?php echo $_SESSION['carType']; ?></p>
+                <p><strong>Date:</strong> <?php echo $_SESSION['bookingDate']; ?></p>
+                <p><strong>Time:</strong> <?php echo $_SESSION['bookingTime']; ?></p>
             </div>
         </div>
 
