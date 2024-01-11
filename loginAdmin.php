@@ -27,11 +27,11 @@
                     
                     <h1 style="color: #304FFE;"><img src="image/admin.png" alt="admin symbol" style="width:100%; max-width:30px; height:auto; margin-right:20px; margin-bottom:8px;">Admin Login</h1>
                     <input type="text" placeholder="Username" name="username" />
-                    <input type="password" placeholder="Password" />
+                    <input type="password" placeholder="Password" name="password" />
                     <a href="forgotAdmin.php">Forgot your password?</a>
                     <div class="btn-group" style="width:100%">
-                    <button style="width:50%; margin-right: 10px;">Employee</button>
-                    <button style="width:50%">Manager</button>
+                    <button style="width:50%; margin-right: 10px;" type="submit" name="role" value="employee">Employee</button>
+                    <button style="width:50%" type="submit" name="role" value="admin">Manager</button>
                     </div>
                     <p>Log In as <span><a href="login.php">Customer</a></span><p></p>
                 </form>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 11, 2024 at 04:54 AM
+-- Generation Time: Jan 11, 2024 at 08:55 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -29,10 +29,18 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `id` int(128) NOT NULL,
-  `role` varchar(11) NOT NULL,
+  `role` varchar(128) NOT NULL,
   `username` varchar(128) NOT NULL,
   `password` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `role`, `username`, `password`) VALUES
+(1, 'admin', 'admin', '123Admin$$'),
+(3, 'employee', 'employee', '123employee$$');
 
 -- --------------------------------------------------------
 
@@ -63,7 +71,8 @@ INSERT INTO `booking` (`id`, `phone`, `vehicle`, `serviceType`, `carType`, `date
 (4, 172310267, 'QAA 1979 A', 'carRepair', 0, '2024-01-11', '08:00:00', '', 0),
 (5, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-11', '13:30:00', '', 0),
 (6, 172310267, 'QAA 1979 A', 'carRepair', 0, '2024-01-13', '16:30:00', '', 0),
-(7, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-27', '13:00:00', '', 0);
+(7, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-27', '13:00:00', '', 0),
+(8, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-19', '15:00:00', 'hi', 0);
 
 -- --------------------------------------------------------
 
@@ -116,13 +125,13 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `customer`
