@@ -23,7 +23,7 @@
     <body>
         <div class="container" id="container">
             <div class="form-container sign-in-container">
-                <form action="#">
+                <form action="process_loginAdmin.php" method="POST">
                     
                     <h1 style="color: #304FFE;"><img src="image/admin.png" alt="admin symbol" style="width:100%; max-width:30px; height:auto; margin-right:20px; margin-bottom:8px;">Admin Login</h1>
                     <input type="text" placeholder="Username" name="username" />
