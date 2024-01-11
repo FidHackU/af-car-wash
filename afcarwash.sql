@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 09, 2024 at 04:32 PM
+-- Generation Time: Jan 11, 2024 at 04:54 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -52,6 +52,19 @@ CREATE TABLE `booking` (
   `bookingStatus` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `booking`
+--
+
+INSERT INTO `booking` (`id`, `phone`, `vehicle`, `serviceType`, `carType`, `date`, `time`, `special`, `bookingStatus`) VALUES
+(1, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-31', '16:30:00', 'dffss', 0),
+(2, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-12', '17:00:00', 'Hey', 0),
+(3, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-11', '10:30:00', 'fdfd', 0),
+(4, 172310267, 'QAA 1979 A', 'carRepair', 0, '2024-01-11', '08:00:00', '', 0),
+(5, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-11', '13:30:00', '', 0),
+(6, 172310267, 'QAA 1979 A', 'carRepair', 0, '2024-01-13', '16:30:00', '', 0),
+(7, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-27', '13:00:00', '', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -60,10 +73,18 @@ CREATE TABLE `booking` (
 
 CREATE TABLE `customer` (
   `id` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
+  `username` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL,
   `password` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`id`, `username`, `email`, `password`) VALUES
+(1, 'Yogi', '73882@siswa.unimas.my', '1'),
+(2, 'admin', 'taco0267@gmail.com', '$2y$10$NmtB2mPGAI8ibfU/w0T5M.6QBbmVsfU95vDbv1UG3NkgpLk2BgZRK');
 
 --
 -- Indexes for dumped tables
@@ -101,13 +122,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
