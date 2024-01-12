@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 12, 2024 at 04:51 AM
+-- Generation Time: Jan 12, 2024 at 02:45 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -39,7 +39,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `role`, `username`, `password`) VALUES
-(1, 'admin', 'admin', '123Admin$$'),
+(1, 'manager', 'manager', '123Manager$$'),
 (3, 'employee', 'employee', '123Employee$$');
 
 -- --------------------------------------------------------
@@ -72,7 +72,8 @@ INSERT INTO `booking` (`id`, `phone`, `vehicle`, `serviceType`, `carType`, `date
 (5, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-11', '13:30:00', '', 0),
 (6, 172310267, 'QAA 1979 A', 'carRepair', 0, '2024-01-13', '16:30:00', '', 0),
 (7, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-27', '13:00:00', '', 0),
-(8, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-19', '15:00:00', 'hi', 0);
+(8, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-19', '15:00:00', 'hi', 0),
+(9, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-31', '09:30:00', 'Lane', 0);
 
 -- --------------------------------------------------------
 
@@ -131,7 +132,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `customer`
