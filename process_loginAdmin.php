@@ -27,12 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['role'] = $role;
             if ($_SESSION['role'] = 'employee') {
             //go to employee page
-            header("location: afcarwash.php");
+            header("location: employeeBookingPage.php");
             }
 
-            if ($_SESSION['role'] = 'admin') {
-            //go to admin page
-                header("location: afcarwash.php");
+            if ($_SESSION['role'] = 'manager') {
+            //go to manager page
+                header("location: managerModifyBookingForm.php");
             }
         } else {
             // Incorrect password

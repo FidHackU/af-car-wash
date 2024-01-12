@@ -129,8 +129,8 @@
                 <span>AF Car Care & Triple (A) Carwash</span>
               </a>
   
-              <a href="admin booking page.php" class="nav-item nav-link">Pending Booking</a>
-              <a href="adminBookingHistory.php" class="nav-item nav-link">Booking History</a>
+              <a href="employeeBookingPage.php" class="nav-item nav-link">Pending Booking</a>
+              <a href="employeeBookingHistory.php" class="nav-item nav-link">Booking History</a>
             </div>
   
             <!-- Logout button -->

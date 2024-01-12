@@ -122,8 +122,8 @@
                             <img src="image\logo.png" alt="">
                         </a>
 
-                        <a href="admin booking page.php" class="nav-item nav-link">Pending Booking</a>
-                        <a href="adminBookingHistory.php" class="nav-item nav-link">Booking History</a>
+                        <a href="managerModifyBookingForm.php" class="nav-item nav-link">Pending Booking</a>
+                        <a href="managerBookingHistory.php" class="nav-item nav-link">Booking History</a>
                     </div>
 
                     <!-- Logout button -->

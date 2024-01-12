@@ -3,12 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Booking Page</title>
+    <title>Modify Pages</title>
     <link rel="icon" type="image/x-icon" href="image\car-wash.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"> 
-    
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -108,7 +107,7 @@
             background-color: #f8f9fa;
         }
 
-        .approve-btn {
+        .upload-btn, .edit-btn {
             display: inline-block;
             padding: 6px 12px;
             font-size: 14px;
@@ -116,10 +115,19 @@
             text-align: center;
             text-decoration: none;
             cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .upload-btn {
             background-color: #28a745;
             color: #fff;
             border: 1px solid #218838;
-            border-radius: 4px;
+        }
+
+        .edit-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: 1px solid #0056b3;
         }
 
         .remarks-textarea {
@@ -138,21 +146,20 @@
     <div class="nav-bar">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-dark">
-                  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-            
 
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav">
                         <!-- Home link with image -->
                         <a href="afcarwash.php" class="nav-item nav-link active">
-                            <img src="image\logo.png" alt="">
-                            <span>AF Car Care & Triple (A) Carwash</span>
+                            <img src="image\logo.png" alt="" class="d-none d-lg-inline">
+                            <span class="d-inline d-lg-none">AF Car Care & Triple (A) Carwash</span>
                         </a>
 
-                        <a href="admin booking page.php" class="nav-item nav-link">Pending Booking</a>
-                        <a href="adminBookingHistory.php" class="nav-item nav-link">Booking History</a>
+                        <a href="managerModifyBookingForm.php" class="nav-item nav-link">Pending Booking</a>
+                        <a href="managerBookingHistory.php" class="nav-item nav-link">Booking History</a>
                     </div>
 
                     <!-- Logout button -->
@@ -186,8 +193,8 @@
                     <td>2023-01-01</td>
                     <td>Pending</td>
                     <td>
-                        <button class="approve-btn" onclick="approveBooking(1)">Approve</button>
-                        <button class="cancel-btn" onclick="cancelBooking(1)">Cancel</button>
+                        <button class="upload-btn" onclick="uploadBooking(1)">Upload</button>
+                        <button class="edit-btn" onclick="EditBooking(1)">Edit</button>
                     </td>
                     <td><textarea class="remarks-textarea" placeholder="Add remarks..."></textarea></td>
                 </tr>
@@ -198,8 +205,8 @@
                     <td>2023-01-02</td>
                     <td>Pending</td>
                     <td>
-                        <button class="approve-btn" onclick="approveBooking(2)">Approve</button>
-                        <button class="cancel-btn" onclick="cancelBooking(2)">Cancel</button>
+                        <button class="upload-btn" onclick="uploadBooking(2)">Upload</button>
+                        <button class="edit-btn" onclick="editBooking(2)">Edit</button>
                     </td>
                     <td><textarea class="remarks-textarea" placeholder="Add remarks..."></textarea></td>
                 </tr>
@@ -214,10 +221,16 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        function approveBooking(bookingId) {
+        function uploadBooking(bookingId) {
             // You can add logic here to handle the approval of the booking
             console.log('Booking Approved:', bookingId);
+        }
+
+        function editBooking(bookingId) {
+            // You can add logic here to handle editing of the booking
+            console.log('Edit Booking:', bookingId);
         }
     </script>
 </body>
 </html>
+
