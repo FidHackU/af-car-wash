@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $row = $result->fetch_assoc();
         $pwd = $row['password'];
 
-        // Verify the entered password against the hashed password (use password_verify only when we have the hashed password done)
+        // Verify the entered password against password from database
         if ($password == $pwd) {
             // Successful login
             echo json_encode(['status' => 'success', 'message' => 'Login successful']);
