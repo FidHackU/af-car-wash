@@ -25,12 +25,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $username;
             $_SESSION['role'] = $role;
-            if ($_SESSION['role'] = 'employee') {
+
+            if ($_SESSION['role'] == 'employee') {
             //go to employee page
             header("location: employeeBookingPage.php");
             }
 
-            if ($_SESSION['role'] = 'manager') {
+            if ($_SESSION['role'] == 'manager') {
             //go to manager page
                 header("location: managerModifyBookingForm.php");
             }
