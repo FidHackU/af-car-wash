@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>employeeBookingPage</title>
+    <title>Employee Booking Page</title>
     <link rel="icon" type="image/x-icon" href="image\car-wash.png">
     <?php include 'includes/header.php'; ?>
 </head>
