@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 12, 2024 at 02:45 PM
+-- Generation Time: Jan 13, 2024 at 09:15 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -50,10 +50,11 @@ INSERT INTO `admin` (`id`, `role`, `username`, `password`) VALUES
 
 CREATE TABLE `booking` (
   `id` int(128) NOT NULL,
+  `customer_id` int(128) NOT NULL,
   `phone` int(128) NOT NULL,
   `vehicle` varchar(128) NOT NULL,
   `serviceType` varchar(128) NOT NULL,
-  `carType` int(128) NOT NULL,
+  `carType` varchar(128) NOT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
   `special` varchar(128) NOT NULL,
@@ -64,16 +65,10 @@ CREATE TABLE `booking` (
 -- Dumping data for table `booking`
 --
 
-INSERT INTO `booking` (`id`, `phone`, `vehicle`, `serviceType`, `carType`, `date`, `time`, `special`, `bookingStatus`) VALUES
-(1, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-31', '16:30:00', 'dffss', 0),
-(2, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-12', '17:00:00', 'Hey', 0),
-(3, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-11', '10:30:00', 'fdfd', 0),
-(4, 172310267, 'QAA 1979 A', 'carRepair', 0, '2024-01-11', '08:00:00', '', 0),
-(5, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-11', '13:30:00', '', 0),
-(6, 172310267, 'QAA 1979 A', 'carRepair', 0, '2024-01-13', '16:30:00', '', 0),
-(7, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-27', '13:00:00', '', 0),
-(8, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-19', '15:00:00', 'hi', 0),
-(9, 172310267, 'QAA 1979 A', 'carWash', 0, '2024-01-31', '09:30:00', 'Lane', 0);
+INSERT INTO `booking` (`id`, `customer_id`, `phone`, `vehicle`, `serviceType`, `carType`, `date`, `time`, `special`, `bookingStatus`) VALUES
+(14, 2, 172310267, 'SAA 9763 A', 'carWash', 'smallCar', '2024-01-19', '09:30:00', 'Testing', 0),
+(15, 2, 324334324, 'SAA 9763 A', 'carRepair', 'SUV', '2024-01-27', '14:30:00', 'Hey', 0),
+(16, 5, 54554, 'SAA 9763 A', 'carWash', 'SUV', '2024-01-19', '11:30:00', 'Mayonis', 0);
 
 -- --------------------------------------------------------
 
@@ -94,7 +89,9 @@ CREATE TABLE `customer` (
 
 INSERT INTO `customer` (`id`, `username`, `email`, `password`) VALUES
 (1, 'Yogi', '73882@siswa.unimas.my', '1'),
-(2, 'admin', 'taco0267@gmail.com', '$2y$10$NmtB2mPGAI8ibfU/w0T5M.6QBbmVsfU95vDbv1UG3NkgpLk2BgZRK');
+(2, 'admin', 'taco0267@gmail.com', '$2y$10$NmtB2mPGAI8ibfU/w0T5M.6QBbmVsfU95vDbv1UG3NkgpLk2BgZRK'),
+(4, 'Ali', 'fidelyong12@gmail.com', '$2y$10$w/TY1UtyzhCc6HDBXRauze4iaOHaqbJYoccIxeiiiy46gDBVAfXwG'),
+(5, 'Abu', 'abu@gmail.com', '$2y$10$AmxxM6.18rYcCGjQcVuTcu6oeXKTv5qbfnX0fEKNgpN5ttfAD00Ei');
 
 --
 -- Indexes for dumped tables
@@ -110,7 +107,8 @@ ALTER TABLE `admin`
 -- Indexes for table `booking`
 --
 ALTER TABLE `booking`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `customer_id` (`customer_id`);
 
 --
 -- Indexes for table `customer`
@@ -132,13 +130,23 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `booking`
+--
+ALTER TABLE `booking`
+  ADD CONSTRAINT `customer_id` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
