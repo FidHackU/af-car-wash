@@ -49,9 +49,6 @@
         <!-- Search Bar -->
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Search..." id="searchInput">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" onclick="searchBooking()">Search</button>
-            </div>
         </div>
 
         <div class="table-responsive table-hover mt-4">
@@ -131,6 +128,17 @@
     $(document).ready(function () {
         // Load initial booking data when the page loads
         loadBookingHistory();
+        // Search functionality using jQuery
+        $('#searchInput').on('keyup', function () {
+            const value = $(this).val().toLowerCase();
+            $("#bookingTable tbody tr").filter(function () {
+                let rowText = '';
+                $(this).find('td').each(function () { // Iterate through all columns
+                    rowText += $(this).text().toLowerCase() + ' ';
+                });
+                $(this).toggle(rowText.includes(value));
+            });
+        });
     });
 
     function loadBookingHistory() {
