@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 13, 2024 at 09:15 PM
+-- Generation Time: Jan 14, 2024 at 06:50 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -58,7 +58,7 @@ CREATE TABLE `booking` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `special` varchar(128) NOT NULL,
-  `bookingStatus` tinyint(1) NOT NULL
+  `bookingStatus` varchar(128) NOT NULL DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -66,9 +66,10 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`id`, `customer_id`, `phone`, `vehicle`, `serviceType`, `carType`, `date`, `time`, `special`, `bookingStatus`) VALUES
-(14, 2, 172310267, 'SAA 9763 A', 'carWash', 'smallCar', '2024-01-19', '09:30:00', 'Testing', 0),
-(15, 2, 324334324, 'SAA 9763 A', 'carRepair', 'SUV', '2024-01-27', '14:30:00', 'Hey', 0),
-(16, 5, 54554, 'SAA 9763 A', 'carWash', 'SUV', '2024-01-19', '11:30:00', 'Mayonis', 0);
+(14, 2, 172310267, 'SAA 9763 A', 'carWash', 'smallCar', '2024-01-19', '09:30:00', 'Testing', 'Approved'),
+(15, 2, 324334324, 'SAA 9763 A', 'carRepair', 'SUV', '2024-01-27', '14:30:00', 'Hey', 'Approved'),
+(17, 6, 172310267, 'SAA 9763 A', 'carRepair', 'SUV', '2024-01-20', '08:30:00', 'Fid', 'Approved'),
+(18, 6, 172310267, 'SAA 9763 A', 'carRepair', 'van', '2024-01-26', '16:00:00', 'TEST', 'Cancelled');
 
 -- --------------------------------------------------------
 
@@ -88,10 +89,9 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`id`, `username`, `email`, `password`) VALUES
-(1, 'Yogi', '73882@siswa.unimas.my', '1'),
 (2, 'admin', 'taco0267@gmail.com', '$2y$10$NmtB2mPGAI8ibfU/w0T5M.6QBbmVsfU95vDbv1UG3NkgpLk2BgZRK'),
 (4, 'Ali', 'fidelyong12@gmail.com', '$2y$10$w/TY1UtyzhCc6HDBXRauze4iaOHaqbJYoccIxeiiiy46gDBVAfXwG'),
-(5, 'Abu', 'abu@gmail.com', '$2y$10$AmxxM6.18rYcCGjQcVuTcu6oeXKTv5qbfnX0fEKNgpN5ttfAD00Ei');
+(6, 'Fid', 'fidelyong22@gmail.com', '$2y$10$C/lv1THjJm6aud1cexBAV.MnNKCVnvu05TwykD2aH4kQU.rvGg7q2');
 
 --
 -- Indexes for dumped tables
@@ -130,13 +130,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

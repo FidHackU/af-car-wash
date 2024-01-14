@@ -52,23 +52,8 @@
             </div>
         </div>
 
-        <?php
-        //Retrieve user data for table
-        $sql = "SELECT booking.id AS booking_id, customer.id AS customer_id,booking.*, customer.*
-                FROM booking
-                INNER JOIN customer ON booking.customer_id = customer.id";
-        $stmt = mysqli_stmt_init($conn);
-        if (!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: employeeBookingPage.php?error=stmtfailed");
-            exit();
-        }
-        
-        mysqli_stmt_execute($stmt);
-        
-        $resultData = mysqli_stmt_get_result($stmt);?>
-
         <div class="table-responsive table-hover mt-4">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="bookingTable">
                 <thead class="thead-light">
                     <tr>
                         <th>Scheduled Date</th>
@@ -81,19 +66,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = (mysqli_fetch_assoc($resultData))) { ?>
-                        <tr>
-                            <td><?php echo $row['date']; ?></td>
-                            <td><?php echo $row['booking_id']; ?></td>
-                            <td><?php echo $row['serviceType']; ?></td>
-                            <td><?php echo $row['carType']; ?></td>
-                            <td><?php echo $row['time']; ?></td>
-                            <td>Pending</td>
-                            <td>
-                                <button class="btn btn-secondary" onclick="viewDetails(1)">View Details</button>
-                            </td>
-                        </tr>
-                    <?php } ?>
+                    <!-- Table Updated Using JQuery Ajax -->
                 </tbody>
             </table>
         </div>
@@ -103,57 +76,86 @@
         </div>
     </div>
 
-    <!-- JavaScript code -->
-    <script>
-        var bookingHistoryData = [
-            { date: '2023-01-01', bookingID:'111', serviceType: 'Car Wash', carType: 'Small Car', time: '10:00 AM', status: '' },
-            { date: '2023-01-02', bookingID: '222', serviceType: 'Car Repair', carType: 'SUV', time: '02:30 PM', status: '' },
-            // Add more entries as needed
-        ];
-
-        function displayBookingHistory() {
-            var tableBody = document.getElementById('bookingHistoryTableBody');
-
-            bookingHistoryData.forEach(function (booking) {
-                var row = tableBody.insertRow();
-                row.insertCell(0).textContent = booking.date;
-                row.insertCell(1).textContent = booking.bookingID;
-                row.insertCell(2).textContent = booking.serviceType;
-                row.insertCell(3).textContent = booking.carType;
-                row.insertCell(4).textContent = booking.time;
-                row.insertCell(5).textContent = booking.status;
-            });
-        }
-
-        window.onload = displayBookingHistory;
-
-        function searchBooking() {
-            var input, filter, table, tbody, tr, td, i, txtValue;
-            input = document.getElementById("searchInput");
-            filter = input.value.toUpperCase();
-            table = document.querySelector("table");
-            tbody = document.getElementById("bookingHistoryTableBody");
-            tr = tbody.getElementsByTagName("tr");
-
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[2];
-
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-    </script>
 
     <!-- Bootstrap JS, Popper.js and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-c1tAAjOQppz6v8r7Fm5Vv9aDHF49/rvx8+ayyJ99KOTdeM4gdeq5g7yPVNVnpq0Q" crossorigin="anonymous"></script>
 </body>
 </html>
+
+<!-- JavaScript code -->
+<script>
+    $(document).ready(function () {
+        // Load initial booking data when the page loads
+        loadBookingHistory();
+    });
+
+    function loadBookingHistory() {
+        // Send an AJAX request to fetch updated booking data
+        $.ajax({
+            url: 'ajaxEmployee.php',
+            type: 'POST',
+            data: {
+                'request': 'loadBookingHistory',
+            },
+            dataType: 'json',
+            success: function(data) {
+                // Handle the success response here
+                updateTable(data);
+            },
+            error: function(error) {
+                // Handle the error response here
+                console.error('Error fetching booking data:', error);
+            }
+        });
+    }
+
+    function updateTable(data) {
+        // Clear the existing table rows
+        $('#bookingTable tbody').empty();
+
+        // Loop through the data and populate the table
+        data.forEach(function (row) {
+            $('#bookingTable tbody').append('<tr>' +
+                '<td>' + row['date'] + '</td>' +
+                '<td>' + row['booking_id'] + '</td>' +
+                '<td>' + row['serviceType'] + '</td>' +
+                '<td>' + row['carType'] + '</td>' +
+                '<td>' + row['time'] + '</td>' + 
+                '<td>' + row['bookingStatus'] + '</td>' + // Display bookingStatus from data
+                '<td>' +
+                '<button class="btn btn-secondary" onclick="viewBooking(\'' + row['booking_id'] + '\')">View Details</button>' +
+                '</td>');
+        });
+    }
+
+    function viewBooking(bookingId){
+        loadBookingHistory();
+        console.log('View Booking:', bookingId);
+    }
+
+    function searchBooking() {
+        var input, filter, table, tbody, tr, td, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.querySelector("table");
+        tbody = document.getElementById("bookingHistoryTableBody");
+        tr = tbody.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

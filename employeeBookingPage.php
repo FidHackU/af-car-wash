@@ -46,24 +46,8 @@
     <!--Nav Bar End-->
 
     <div class="container">
-
-        <?php
-        //Retrieve user data for table
-        $sql = "SELECT booking.id AS booking_id, customer.id AS customer_id,booking.*, customer.*
-                FROM booking
-                INNER JOIN customer ON booking.customer_id = customer.id";
-        $stmt = mysqli_stmt_init($conn);
-        if (!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: employeeBookingPage.php?error=stmtfailed");
-            exit();
-        }
-        
-        mysqli_stmt_execute($stmt);
-        
-        $resultData = mysqli_stmt_get_result($stmt);?>
-
         <div class="table-responsive table-hover mt-4">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="bookingTable">
                 <thead class="thead-light">
                     <tr>
                         <th>Booking ID</th>
@@ -76,20 +60,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = (mysqli_fetch_assoc($resultData))) { ?>
-                        <tr>
-                            <td><?php echo $row['booking_id']; ?></td>
-                            <td><?php echo $row['username']; ?></td>
-                            <td><?php echo $row['email']; ?></td>
-                            <td><?php echo $row['date']; ?></td>
-                            <td>Pending</td>
-                            <td>
-                                <button class="btn btn-primary" onclick="approveBooking(1)">Approve</button>
-                                <button class="btn btn-danger" onclick="cancelBooking(1)">Cancel</button>
-                            </td>
-                            <td><textarea class="remarks-textarea" placeholder="Add remarks..."></textarea></td>
-                        </tr>
-                    <?php } ?>
+                    <!-- Table Updated Using JQuery Ajax -->
                 </tbody>
             </table>
         </div>
@@ -97,15 +68,103 @@
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-        function approveBooking(bookingId) {
-            // You can add logic here to handle the approval of the booking
-            console.log('Booking Approved:', bookingId);
-        }
-    </script>
 </body>
 
 </html>
+
+<script>
+    $(document).ready(function () {
+        // Load initial booking data when the page loads
+        loadBookingData();
+    });
+
+    function loadBookingData() {
+        // Send an AJAX request to fetch updated booking data
+        $.ajax({
+            url: 'ajaxEmployee.php',
+            type: 'POST',
+            data: {
+                'request': 'loadBookingData',
+            },
+            dataType: 'json',
+            success: function(data) {
+                // Handle the success response here
+                updateTable(data);
+            },
+            error: function(error) {
+                // Handle the error response here
+                console.error('Error fetching booking data:', error);
+            }
+        });
+    }
+
+    function updateTable(data) {
+        // Clear the existing table rows
+        $('#bookingTable tbody').empty();
+
+        // Loop through the data and populate the table
+        data.forEach(function (row) {
+            $('#bookingTable tbody').append('<tr>' +
+                '<td>' + row['booking_id'] + '</td>' +
+                '<td>' + row['username'] + '</td>' +
+                '<td>' + row['email'] + '</td>' +
+                '<td>' + row['date'] + '</td>' +
+                '<td>' + row['bookingStatus'] + '</td>' + // Display bookingStatus from data
+                '<td>' +
+                '<button class="btn btn-primary" onclick="approveBooking(\'' + row['booking_id'] + '\')">Approve</button>' +
+                '<button class="btn btn-danger ml-1" onclick="cancelBooking(\'' + row['booking_id'] + '\')">Cancel</button>' +
+                '</td>' +
+                '<td><textarea class="remarks-textarea" placeholder="Add remarks..."></textarea></td>' +
+                '</tr>');
+        });
+    }
+
+    function approveBooking(bookingId) {
+        // Send an AJAX request to approve the booking
+        $.ajax({
+            url: 'ajaxEmployee.php',
+            type: 'POST',
+            data: {
+                'request': 'approveBooking',
+                bookingId: bookingId
+            },
+            success: function(data) {
+                console.log(data);
+                // Handle the success response here
+                console.log('Booking Approved:', bookingId);
+                // You can update the UI or perform any other actions as needed
+                loadBookingData();
+            },
+            error: function(error) {
+                // Handle the error response here
+                console.error('Error approving booking:', error);
+            }
+        });
+    }
+
+    function cancelBooking(bookingId) {
+        // Send an AJAX request to cancel the booking
+        $.ajax({
+            url: 'ajaxEmployee.php',
+            type: 'POST',
+            data: {
+                'request': 'cancelBooking',
+                bookingId: bookingId
+            },
+            success: function(data) {
+                console.log(data);
+                // Handle the success response here
+                console.log('Booking Canceled:', bookingId);
+                // You can update the UI or perform any other actions as needed
+                loadBookingData();
+            },
+            error: function(error) {
+                // Handle the error response here
+                console.error('Error canceling booking:', error);
+            }
+        });
+    }
+</script>
