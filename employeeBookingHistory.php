@@ -84,7 +84,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Booking Details</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><strong>Customer name: </strong><span id="customerUsername"></span></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -186,6 +186,7 @@
             success: function (data) {
                 console.log('data: ', data);
                 // Populate the modal with the fetched data
+                $('#customerUsername').text(data.username);
                 $('#bookingId').text(data.booking_id);
                 $('#phoneNumber').text(data.phone);
                 $('#vehicleNumber').text(data.vehicle);
