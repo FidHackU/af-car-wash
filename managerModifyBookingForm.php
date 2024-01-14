@@ -48,8 +48,8 @@
     <!--Nav Bar End-->
 
     <div class="container">
-        <div class="table-responsive table-hover mt-4">
-            <table class="table table-bordered" id="bookingTable">
+        <div class=" table-responsive mt-4">
+            <table class="table table-bordered table-hover" id="bookingTable">
                 <thead class="thead-light">
                     <tr>
                         <th>Booking ID</th>
