@@ -5,10 +5,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Manager Booking History</title>
+    <title>Employee Booking History</title>
     <link rel="icon" type="image/x-icon" href="image\car-wash.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
     <?php include 'includes/header.php'; ?>
 </head>
 
@@ -21,7 +22,6 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav">
                         <!-- Home link with image -->
@@ -29,7 +29,7 @@
                             <img src="image\logo.png" class="w-25" alt="">
                         </a>
 
-                        <a href="managerModifyBookingForm.php" class="nav-item nav-link">Pending Booking</a>
+                        <a href="managerModifyBookingForm.php" class="nav-item nav-link">Modify Booking</a>
                         <a href="managerBookingHistory.php" class="nav-item nav-link active">Booking History</a>
                     </div>
 
@@ -49,28 +49,10 @@
         <!-- Search Bar -->
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Search..." id="searchInput">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" onclick="searchBooking()">Search</button>
-            </div>
         </div>
 
-        <?php
-        //Retrieve user data for table
-        $sql = "SELECT booking.id AS booking_id, customer.id AS customer_id,booking.*, customer.*
-                FROM booking
-                INNER JOIN customer ON booking.customer_id = customer.id";
-        $stmt = mysqli_stmt_init($conn);
-        if (!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: employeeBookingPage.php?error=stmtfailed");
-            exit();
-        }
-
-        mysqli_stmt_execute($stmt);
-
-        $resultData = mysqli_stmt_get_result($stmt); ?>
-
         <div class="table-responsive table-hover mt-4">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="bookingTable">
                 <thead class="thead-light">
                     <tr>
                         <th>Scheduled Date</th>
@@ -83,90 +65,157 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = (mysqli_fetch_assoc($resultData))) { ?>
-                        <tr>
-                            <td>
-                                <?php echo $row['date']; ?>
-                            </td>
-                            <td>
-                                <?php echo $row['booking_id']; ?>
-                            </td>
-                            <td>
-                                <?php echo $row['serviceType']; ?>
-                            </td>
-                            <td>
-                                <?php echo $row['carType']; ?>
-                            </td>
-                            <td>
-                                <?php echo $row['time']; ?>
-                            </td>
-                            <td>Pending</td>
-                            <td>
-                                <button class="btn btn-secondary" onclick="viewDetails(1)">View Details</button>
-                            </td>
-                        </tr>
-                    <?php } ?>
+                    <!-- Table Updated Using JQuery Ajax -->
                 </tbody>
             </table>
         </div>
 
-        <script>
-            // Dummy booking history data (replace this with actual data)
-            var bookingHistoryData = [
-                { date: '2023-01-01', bookingID: '111', serviceType: 'Car Wash', carType: 'Small Car', time: '10:00 AM', status: '' },
-                { date: '2023-01-02', bookingID: '222', serviceType: 'Car Repair', carType: 'SUV', time: '02:30 PM', status: '' },
-                // Add more entries as needed
-            ];
+        <div class="back-btn">
+            <center><a href="booking2.php" class="btn btn-primary">Back to Booking</a></center>
+        </div>
+    </div>
 
-            // Function to display booking history
-            function displayBookingHistory() {
-                var tableBody = document.getElementById('bookingHistoryTableBody');
+    <!-- Modal -->
+    <div class="modal fade" id="bookingDetailsModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><strong>Customer name: </strong><span id="customerUsername"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add booking details here -->
+                    <ul>
+                        <li><strong>Booking ID:</strong> <span id="bookingId"></span></li>
+                        <li><strong>Phone Number:</strong> <span id="phoneNumber"></span></li>
+                        <li><strong>Vehicle Number:</strong> <span id="vehicleNumber"></span></li>
+                        <li><strong>Car Type:</strong> <span id="carType"></span></li>
+                        <li><strong>Special Instruction (If Any):</strong> <span id="specialInstruction"></span></li>
+                        <li><strong>Type of Service:</strong> <span id="serviceType"></span></li>
+                        <li><strong>Scheduled Date:</strong> <span id="scheduledDate"></span></li>
+                        <li><strong>Scheduled Time:</strong> <span id="scheduledTime"></span></li>
+                        <li><strong>Status:</strong> <span id="status"></span></li>
+                        <li><strong>Cost:</strong> <span id="cost"></span></li>
+                        <li><strong>Payment Status:</strong> <span id="paymentStatus"></span></li>
+                        <li><strong>Invoice Number (If Payment Done):</strong> <span id="invoiceNumber"></span></li>
+                        <li><strong>Receipt Number (If Payment Done):</strong> <span id="receiptNumber"></span></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                bookingHistoryData.forEach(function (booking) {
-                    var row = tableBody.insertRow();
-                    row.insertCell(0).textContent = booking.date;
-                    row.insertCell(1).textContent = booking.bookingID;
-                    row.insertCell(2).textContent = booking.serviceType;
-                    row.insertCell(3).textContent = booking.carType;
-                    row.insertCell(4).textContent = booking.time;
-                    row.insertCell(5).textContent = booking.status;
-
-                });
-            }
-
-            // Display booking history when the page loads
-            window.onload = displayBookingHistory;
-
-            // Function to search booking history
-            function searchBooking() {
-                var input, filter, table, tbody, tr, td, i, txtValue;
-                input = document.getElementById("searchInput");
-                filter = input.value.toUpperCase();
-                table = document.querySelector("table");
-                tbody = document.getElementById("bookingHistoryTableBody");
-                tr = tbody.getElementsByTagName("tr");
-
-                // Loop through all table rows and hide those that don't match the search query
-                for (i = 0; i < tr.length; i++) {
-                    td = tr[i].getElementsByTagName("td")[2]; // Change index based on the column you want to search
-
-                    if (td) {
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
-                    }
-                }
-            }
-
-            // Function to add a new booking
-            function addBooking() {
-                // You can add your logic to handle the addition of a new booking
-                console.log('Adding a new booking');
-            }
-        </script>
+    <!-- Bootstrap JS, Popper.js and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-c1tAAjOQppz6v8r7Fm5Vv9aDHF49/rvx8+ayyJ99KOTdeM4gdeq5g7yPVNVnpq0Q"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
+
+<!-- JavaScript code -->
+<script>
+    $(document).ready(function () {
+        // Load initial booking data when the page loads
+        loadBookingHistory();
+        // Search functionality using jQuery
+        $('#searchInput').on('keyup', function () {
+            const value = $(this).val().toLowerCase();
+            $("#bookingTable tbody tr").filter(function () {
+                let rowText = '';
+                $(this).find('td').each(function () { // Iterate through all columns
+                    rowText += $(this).text().toLowerCase() + ' ';
+                });
+                $(this).toggle(rowText.includes(value));
+            });
+        });
+    });
+
+    function loadBookingHistory() {
+        // Send an AJAX request to fetch updated booking data
+        $.ajax({
+            url: 'ajaxManager.php',
+            type: 'POST',
+            data: {
+                'request': 'loadBookingHistory',
+            },
+            dataType: 'json',
+            success: function (data) {
+                // Handle the success response here
+                updateTable(data);
+            },
+            error: function (error) {
+                // Handle the error response here
+                console.error('Error fetching booking data:', error);
+            }
+        });
+    }
+
+    function updateTable(data) {
+        // Clear the existing table rows
+        $('#bookingTable tbody').empty();
+
+        // Loop through the data and populate the table
+        data.forEach(function (row) {
+            $('#bookingTable tbody').append('<tr>' +
+                '<td>' + row['date'] + '</td>' +
+                '<td>' + row['booking_id'] + '</td>' +
+                '<td>' + row['serviceType'] + '</td>' +
+                '<td>' + row['carType'] + '</td>' +
+                '<td>' + row['time'] + '</td>' +
+                '<td>' + row['bookingStatus'] + '</td>' + // Display bookingStatus from data
+                '<td>' +
+                '<button class="btn btn-secondary" onclick="viewBooking(\'' + row['booking_id'] + '\')">View Details</button>' +
+                '</td>');
+        });
+    }
+
+    function viewBooking(bookingId) {
+        console.log('BookingId: ', bookingId);
+        // Send an AJAX request to fetch booking details based on the bookingId
+        $.ajax({
+            url: 'ajaxEmployee.php',
+            type: 'POST',
+            data: {
+                'request': 'viewBooking',
+                'bookingId': bookingId
+            },
+            dataType: 'json',
+            success: function (data) {
+                console.log('data: ', data);
+                // Populate the modal with the fetched data
+                $('#customerUsername').text(data.username);
+                $('#bookingId').text(data.booking_id);
+                $('#phoneNumber').text(data.phone);
+                $('#vehicleNumber').text(data.vehicle);
+                $('#carType').text(data.carType);
+                $('#specialInstruction').text(data.special);
+                $('#serviceType').text(data.serviceType);
+                $('#scheduledDate').text(data.date);
+                $('#scheduledTime').text(data.time);
+                $('#status').text(data.bookingStatus);
+                // $('#cost').text(data.cost);
+                // $('#paymentStatus').text(data.payment_status);
+                // $('#invoiceNumber').text(data.invoice_number);
+                // $('#receiptNumber').text(data.receipt_number);
+
+                // Open the modal
+                $('#bookingDetailsModal').modal('show');
+            },
+            error: function (error) {
+                // Handle the error response here
+                console.error('Error fetching booking details:', error);
+            }
+        });
+    }
+</script>

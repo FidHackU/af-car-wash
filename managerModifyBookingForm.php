@@ -26,7 +26,6 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav">
                         <!-- Home link with image -->
@@ -34,7 +33,7 @@
                             <img src="image\logo.png" class="w-25" alt="">
                         </a>
 
-                        <a href="managerModifyBookingForm.php" class="nav-item nav-link active">Pending Booking</a>
+                        <a href="managerModifyBookingForm.php" class="nav-item nav-link active">Modify Booking</a>
                         <a href="managerBookingHistory.php" class="nav-item nav-link">Booking History</a>
                     </div>
 
@@ -49,24 +48,8 @@
     <!--Nav Bar End-->
 
     <div class="container">
-
-        <?php
-        //Retrieve user data for table
-        $sql = "SELECT booking.id AS booking_id, customer.id AS customer_id,booking.*, customer.*
-                FROM booking
-                INNER JOIN customer ON booking.customer_id = customer.id";
-        $stmt = mysqli_stmt_init($conn);
-        if (!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: employeeBookingPage.php?error=stmtfailed");
-            exit();
-        }
-
-        mysqli_stmt_execute($stmt);
-
-        $resultData = mysqli_stmt_get_result($stmt); ?>
-
         <div class="table-responsive table-hover mt-4">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="bookingTable">
                 <thead class="thead-light">
                     <tr>
                         <th>Booking ID</th>
@@ -79,29 +62,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = (mysqli_fetch_assoc($resultData))) { ?>
-                        <tr>
-                            <td>
-                                <?php echo $row['booking_id']; ?>
-                            </td>
-                            <td>
-                                <?php echo $row['username']; ?>
-                            </td>
-                            <td>
-                                <?php echo $row['email']; ?>
-                            </td>
-                            <td>
-                                <?php echo $row['date']; ?>
-                            </td>
-                            <td>Pending</td>
-                            <td>
-                                <button class="btn btn-primary" onclick="uploadBooking(1)">Upload</button>
-                                <button class="btn btn-secondary" onclick="editBooking(1)">Edit</button>
-                                <button class="btn btn-danger" onclick="deleteBooking(1)">Delete</button>
-                            </td>
-                            <td><textarea class="remarks-textarea" placeholder="Add remarks..."></textarea></td>
-                        </tr>
-                    <?php } ?>
+                    
                 </tbody>
             </table>
         </div>
@@ -109,25 +70,73 @@
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-        function uploadBooking(bookingId) {
-            // You can add logic here to handle the approval of the booking
-            console.log('Booking Approved:', bookingId);
-        }
-
-        function editBooking(bookingId) {
-            // You can add logic here to handle editing of the booking
-            console.log('Edit Booking:', bookingId);
-        }
-
-        function deleteBooking(bookingId) {
-            // You can add logic here to handle deleting of the booking
-            console.log('Edit Booking:', bookingId);
-        }
-    </script>
 </body>
 
 </html>
+
+<script>
+    $(document).ready(function () {
+        // Load initial booking data when the page loads
+        loadBookingData();
+    });
+
+    function loadBookingData() {
+        // Send an AJAX request to fetch updated booking data
+        $.ajax({
+            url: 'ajaxManager.php',
+            type: 'POST',
+            data: {
+                'request': 'loadBookingData',
+            },
+            dataType: 'json',
+            success: function(data) {
+                // Handle the success response here
+                updateTable(data);
+            },
+            error: function(error) {
+                // Handle the error response here
+                console.error('Error fetching booking data:', error);
+            }
+        });
+    }
+
+    function updateTable(data) {
+        // Clear the existing table rows
+        $('#bookingTable tbody').empty();
+
+        // Loop through the data and populate the table
+        data.forEach(function (row) {
+            $('#bookingTable tbody').append('<tr>' +
+                '<td>' + row['booking_id'] + '</td>' +
+                '<td>' + row['username'] + '</td>' +
+                '<td>' + row['email'] + '</td>' +
+                '<td>' + row['date'] + '</td>' +
+                '<td>' + row['bookingStatus'] + '</td>' + // Display bookingStatus from data
+                '<td>' +
+                '<button class="btn btn-primary" onclick="uploadBooking(\'' + row['booking_id'] + '\')">Upload</button>' +
+                '<button class="btn btn-secondary ml-1" onclick="editBooking(\'' + row['booking_id'] + '\')">Edit</button>' +
+                '<button class="btn btn-danger ml-1" onclick="deleteBooking(\'' + row['booking_id'] + '\')">Delete</button>' +
+                '</td>' +
+                '<td><textarea class="remarks-textarea" placeholder="Add remarks..."></textarea></td>' +
+                '</tr>');
+        });
+    }
+
+    function uploadBooking(bookingId) {
+        // You can add logic here to handle the approval of the booking
+        console.log('Booking Approved:', bookingId);
+    }
+
+    function editBooking(bookingId) {
+        // You can add logic here to handle editing of the booking
+        console.log('Edit Booking:', bookingId);
+    }
+
+    function deleteBooking(bookingId) {
+        // You can add logic here to handle deleting of the booking
+        console.log('Edit Booking:', bookingId);
+    }
+</script>
