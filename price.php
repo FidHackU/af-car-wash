@@ -118,11 +118,11 @@
                             <div class="price-footer">
                                 <a class="btn btn-custom" href="">Book Now</a>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
-        </div>-->
+        </div>
         <!-- Price End -->
         
         <!-- Footer Start -->
