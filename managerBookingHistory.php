@@ -79,14 +79,14 @@
                                 <form id="carWashForm">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="telephoneNumber">Telephone Number:</label>
-                                            <input type="text" class="form-control" id="telephoneNumber"
-                                                name="telephoneNumber">
+                                            <label for="addTelephoneNumber">Telephone Number:</label>
+                                            <input type="text" class="form-control" id="addTelephoneNumber"
+                                                name="addTelephoneNumber">
                                         </div>
 
                                         <div class="form-group col-md-6">
-                                            <label for="serviceType">Select Service Type:</label>
-                                            <select class="form-select" id="serviceType" name="serviceType">
+                                            <label for="addServiceType">Select Service Type:</label>
+                                            <select class="form-select" id="addServiceType" name="addServiceType">
                                                 <option value="" disabled selected>Please Choose</option>
                                                 <option value="carWash">Car Wash</option>
                                                 <option value="carRepair">Car Repair</option>
@@ -96,20 +96,20 @@
 
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="vehicleNumber">Vehicle Number:</label>
-                                            <input type="text" class="form-control" id="vehicleNumber" name="vehicleNumber">
+                                            <label for="addVehicleNumber">Vehicle Number:</label>
+                                            <input type="text" class="form-control" id="addVehicleNumber" name="addVehicleNumber">
                                         </div>
 
                                         <div class="form-group col-md-6">
-                                            <label for="bookingDate">Select Date:</label>
-                                            <input type="date" class="form-control" id="bookingDate" name="bookingDate">
+                                            <label for="addBookingDate">Select Date:</label>
+                                            <input type="date" class="form-control" id="addBookingDate" name="addBookingDate">
                                         </div>
                                     </div>
 
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="carType">Select Car Type:</label>
-                                            <select class="form-select" id="carType" name="carType">
+                                            <label for="addCarType">Select Car Type:</label>
+                                            <select class="form-select" id="addCarType" name="addCarType">
                                                 <option value="" disabled selected>Please Choose</option>
                                                 <option value="smallCar">Small Car</option>
                                                 <option value="SUV">SUV</option>
@@ -118,8 +118,8 @@
                                         </div>
 
                                         <div class="form-group col-md-6">
-                                            <label for="bookingTime">Select Time:</label>
-                                            <select class="form-select" id="bookingTime" name="bookingTime">
+                                            <label for="addBookingTime">Select Time:</label>
+                                            <select class="form-select" id="addBookingTime" name="addBookingTime">
                                                 <option value="" disabled selected>Please Choose</option>
                                                 <!-- Dynamically generate time options in 12-hour format -->
                                                 <script>
@@ -224,7 +224,103 @@
 
 <!-- JavaScript code -->
 <script>
-    // Add your validation logic here
+    $(document).ready(function () {
+        // Load initial booking data when the page loads
+        loadBookingHistory();
+        // Search functionality using jQuery
+        $('#searchInput').on('keyup', function () {
+            const value = $(this).val().toLowerCase();
+            $("#bookingTable tbody tr").filter(function () {
+                let rowText = '';
+                $(this).find('td').each(function () { // Iterate through all columns
+                    rowText += $(this).text().toLowerCase() + ' ';
+                });
+                $(this).toggle(rowText.includes(value));
+            });
+        });
+    });
+
+    //LOAD BOOKING HISTORY FUNCTION
+    function loadBookingHistory() {
+        // Send an AJAX request to fetch updated booking data
+        $.ajax({
+            url: 'ajaxManager.php',
+            type: 'POST',
+            data: {
+                'request': 'loadBookingHistory',
+            },
+            dataType: 'json',
+            success: function (data) {
+                // Handle the success response here
+                updateTable(data);
+            },
+            error: function (error) {
+                // Handle the error response here
+                console.error('Error fetching booking data:', error);
+            }
+        });
+    }
+
+    function updateTable(data) {
+        // Clear the existing table rows
+        $('#bookingTable tbody').empty();
+
+        // Loop through the data and populate the table
+        data.forEach(function (row) {
+            $('#bookingTable tbody').append('<tr>' +
+                '<td>' + row['date'] + '</td>' +
+                '<td>' + row['booking_id'] + '</td>' +
+                '<td>' + row['serviceType'] + '</td>' +
+                '<td>' + row['carType'] + '</td>' +
+                '<td>' + row['time'] + '</td>' +
+                '<td>' + row['bookingStatus'] + '</td>' + // Display bookingStatus from data
+                '<td>' +
+                '<button class="btn btn-secondary" onclick="viewBooking(\'' + row['booking_id'] + '\')">View Details</button>' +
+                '</td>');
+        });
+    }
+
+    //VIEW DETAILS BUTTON FUNCTION
+    function viewBooking(bookingId) {
+        console.log('BookingId: ', bookingId);
+        // Send an AJAX request to fetch booking details based on the bookingId
+        $.ajax({
+            url: 'ajaxManager.php',
+            type: 'POST',
+            data: {
+                'request': 'viewBooking',
+                'bookingId': bookingId
+            },
+            dataType: 'json',
+            success: function (data) {
+                console.log('data: ', data);
+                // Populate the modal with the fetched data
+                $('#customerUsername').text(data.username);
+                $('#bookingId').text(data.booking_id);
+                $('#phoneNumber').text(data.phone);
+                $('#vehicleNumber').text(data.vehicle);
+                $('#carType').text(data.carType);
+                $('#specialInstruction').text(data.special);
+                $('#serviceType').text(data.serviceType);
+                $('#scheduledDate').text(data.date);
+                $('#scheduledTime').text(data.time);
+                $('#status').text(data.bookingStatus);
+                // $('#cost').text(data.cost);
+                // $('#paymentStatus').text(data.payment_status);
+                // $('#invoiceNumber').text(data.invoice_number);
+                // $('#receiptNumber').text(data.receipt_number);
+
+                // Open the modal
+                $('#bookingDetailsModal').modal('show');
+            },
+            error: function (error) {
+                // Handle the error response here
+                console.error('Error fetching booking details:', error);
+            }
+        });
+    }
+
+    //MODAL FORM FOR ADD BOOKING
     function validateBooking() {
         // Get form elements
         var serviceType = document.getElementById("serviceType").value;
@@ -279,129 +375,24 @@
         }
     }
 
-    $(document).ready(function () {
-        // Load initial booking data when the page loads
-        loadBookingHistory();
-        // Search functionality using jQuery
-        $('#searchInput').on('keyup', function () {
-            const value = $(this).val().toLowerCase();
-            $("#bookingTable tbody tr").filter(function () {
-                let rowText = '';
-                $(this).find('td').each(function () { // Iterate through all columns
-                    rowText += $(this).text().toLowerCase() + ' ';
-                });
-                $(this).toggle(rowText.includes(value));
-            });
-        });
-    });
-
-    function loadBookingHistory() {
-        // Send an AJAX request to fetch updated booking data
-        $.ajax({
-            url: 'ajaxManager.php',
-            type: 'POST',
-            data: {
-                'request': 'loadBookingHistory',
-            },
-            dataType: 'json',
-            success: function (data) {
-                // Handle the success response here
-                updateTable(data);
-            },
-            error: function (error) {
-                // Handle the error response here
-                console.error('Error fetching booking data:', error);
-            }
-        });
-    }
-
-    function updateTable(data) {
-        // Clear the existing table rows
-        $('#bookingTable tbody').empty();
-
-        // Loop through the data and populate the table
-        data.forEach(function (row) {
-            $('#bookingTable tbody').append('<tr>' +
-                '<td>' + row['date'] + '</td>' +
-                '<td>' + row['booking_id'] + '</td>' +
-                '<td>' + row['serviceType'] + '</td>' +
-                '<td>' + row['carType'] + '</td>' +
-                '<td>' + row['time'] + '</td>' +
-                '<td>' + row['bookingStatus'] + '</td>' + // Display bookingStatus from data
-                '<td>' +
-                '<button class="btn btn-secondary" onclick="viewBooking(\'' + row['booking_id'] + '\')">View Details</button>' +
-                '</td>');
-        });
-    }
-
-    function viewBooking(bookingId) {
-        console.log('BookingId: ', bookingId);
-        // Send an AJAX request to fetch booking details based on the bookingId
-        $.ajax({
-            url: 'ajaxEmployee.php',
-            type: 'POST',
-            data: {
-                'request': 'viewBooking',
-                'bookingId': bookingId
-            },
-            dataType: 'json',
-            success: function (data) {
-                console.log('data: ', data);
-                // Populate the modal with the fetched data
-                $('#customerUsername').text(data.username);
-                $('#bookingId').text(data.booking_id);
-                $('#phoneNumber').text(data.phone);
-                $('#vehicleNumber').text(data.vehicle);
-                $('#carType').text(data.carType);
-                $('#specialInstruction').text(data.special);
-                $('#serviceType').text(data.serviceType);
-                $('#scheduledDate').text(data.date);
-                $('#scheduledTime').text(data.time);
-                $('#status').text(data.bookingStatus);
-                // $('#cost').text(data.cost);
-                // $('#paymentStatus').text(data.payment_status);
-                // $('#invoiceNumber').text(data.invoice_number);
-                // $('#receiptNumber').text(data.receipt_number);
-
-                // Open the modal
-                $('#bookingDetailsModal').modal('show');
-            },
-            error: function (error) {
-                // Handle the error response here
-                console.error('Error fetching booking details:', error);
-            }
-        });
-    }
-
     function addbooking(){
         $('#addBookingModal').modal('show');
     };
 
     function saveBooking() {
-        // Gather the form data
-        let formData = {
-            serviceType: $('#serviceType').val(),
-            carType: $('#carType').val(),
-            bookingDate: $('#bookingDate').val(),
-            bookingTime: $('#bookingTime').val(),
-            telephoneNumber: $('#telephoneNumber').val(),
-            vehicleNumber: $('#vehicleNumber').val(),
-            specialInstructions: $('#specialInstructions').val()
-        };
-
         // Send an AJAX request to save the booking data
         $.ajax({
             url: 'ajaxManager.php',
             type: 'POST',
             data: {
                 'request': 'saveBooking',
-                serviceType: $('#serviceType').val(),
-                carType: $('#carType').val(),
-                bookingDate: $('#bookingDate').val(),
-                bookingTime: $('#bookingTime').val(),
-                telephoneNumber: $('#telephoneNumber').val(),
-                vehicleNumber: $('#vehicleNumber').val(),
-                specialInstructions: $('#specialInstructions').val()
+                serviceType: $('#addServiceType').val(),
+                carType: $('#addCarType').val(),
+                bookingDate: $('#addBookingDate').val(),
+                bookingTime: $('#addBookingTime').val(),
+                telephoneNumber: $('#addTelephoneNumber').val(),
+                vehicleNumber: $('#addVehicleNumber').val(),
+                specialInstructions: $('#addSpecialInstructions').val()
             },
             success: function (data) {
                 // Handle the success response here (if needed)
@@ -422,12 +413,12 @@
 
     function clearFormFields() {
         // Reset the form fields to their default values or empty
-        $('#serviceType').val('');
-        $('#carType').val('');
-        $('#bookingDate').val('');
-        $('#bookingTime').val('');
-        $('#telephoneNumber').val('');
-        $('#vehicleNumber').val('');
-        $('#specialInstructions').val('');
+        $('#addServiceType').val('');
+        $('#addCarType').val('');
+        $('#addBookingDate').val('');
+        $('#addBookingTime').val('');
+        $('#addTelephoneNumber').val('');
+        $('#addVehicleNumber').val('');
+        $('#addSpecialInstructions').val('');
     }
 </script>

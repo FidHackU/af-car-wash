@@ -24,7 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $bookingDate = $_POST['bookingDate'];
         $bookingTime = $_POST['bookingTime'];
         $specialInstructions = $_POST['specialInstructions'];
-        saveBooking($conn, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions);
+        //MANAGER ID
+        $customer_id = '7';
+        saveBooking($conn, $customer_id, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions);
     }
 }
 
@@ -109,10 +111,10 @@ function viewBooking($conn, $bookingId){
     }
 }
 
-function saveBooking($conn, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions){
+function saveBooking($conn, $customer_id, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions){
     // Prepare SQL statement to prevent SQL injection
-    $stmt = $conn->prepare("INSERT INTO booking (phone, vehicle, serviceType, carType, date, time, special) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssss", $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions);
+    $stmt = $conn->prepare("INSERT INTO booking (customer_id, phone, vehicle, serviceType, carType, date, time, special) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssssss", $customer_id, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions);
 
     // Execute the statement and check for errors
     if ($stmt->execute()) {
