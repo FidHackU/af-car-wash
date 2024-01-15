@@ -69,7 +69,7 @@
             </div>
             <div class="form-group">
                 <label for="serviceType">Select Service Type:</label>
-                <select class="form-control" id="serviceType" name="serviceType">
+                <select class="form-select" id="serviceType" name="serviceType">
                     <option value="" disabled selected>Please Choose</option>
                     <option value="carWash">Car Wash</option>
                     <option value="carRepair">Car Repair</option>
@@ -78,7 +78,7 @@
 
             <div class="form-group">
                 <label for="carType">Select Car Type:</label>
-                <select class="form-control" id="carType" name="carType">
+                <select class="form-select" id="carType" name="carType">
                     <option value="" disabled selected>Please Choose</option>
                     <option value="smallCar">Small Car</option>
                     <option value="SUV">SUV</option>
@@ -93,7 +93,7 @@
 
             <div class="form-group">
                 <label for="bookingTime">Select Time:</label>
-                <select class="form-control" id="bookingTime" name="bookingTime">
+                <select class="form-select" id="bookingTime" name="bookingTime">
                     <option value="" disabled selected>Please Choose</option>
                     <!-- Dynamically generate time options in 12-hour format -->
                     <script>

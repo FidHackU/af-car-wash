@@ -47,7 +47,12 @@
     </div>
     <!--Nav Bar End-->
 
-    <div class="container">
+    <div class="container mt-4">
+        <h2>Modify Booking</h2>
+        <!-- Search Bar -->
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search..." id="searchInput">
+        </div>
         <div class=" table-responsive mt-4">
             <table class="table table-bordered table-hover" id="bookingTable">
                 <thead class="thead-light">
@@ -81,6 +86,16 @@
     $(document).ready(function () {
         // Load initial booking data when the page loads
         loadBookingData();
+        $('#searchInput').on('keyup', function () {
+            const value = $(this).val().toLowerCase();
+            $("#bookingTable tbody tr").filter(function () {
+                let rowText = '';
+                $(this).find('td').each(function () { // Iterate through all columns
+                    rowText += $(this).text().toLowerCase() + ' ';
+                });
+                $(this).toggle(rowText.includes(value));
+            });
+        });
     });
 
     function loadBookingData() {

@@ -69,10 +69,6 @@
                 </tbody>
             </table>
         </div>
-
-        <div class="back-btn">
-            <center><a href="booking2.php" class="btn btn-primary">Back to Booking</a></center>
-        </div>
     </div>
 
     <!-- Modal -->

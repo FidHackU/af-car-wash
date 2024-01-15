@@ -5,10 +5,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Employee Booking History</title>
+    <title>Manager Booking History</title>
     <link rel="icon" type="image/x-icon" href="image\car-wash.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 
     <?php include 'includes/header.php'; ?>
 </head>
@@ -45,10 +46,111 @@
 
     <!-- Main Content Container -->
     <div class="container mt-4">
-        <h2>Booking History</h2>
-        <!-- Search Bar -->
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Search..." id="searchInput">
+        <div class="row">
+            <h2>Booking History</h2>
+            <!-- Search Bar -->
+            <div class="col-sm-10"> <!-- Adjust the width as needed -->
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search..." id="searchInput">
+                </div>
+            </div>
+            <div class="col text-right">
+                <button class="btn btn-primary" type="button" onclick="addbooking()">
+                    <i class="fa-regular fa-calendar-plus mr-1"></i> Add Booking
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="addBookingModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><strong>Add New Booking</strong></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Booking Form Start -->
+                        <div class="container mt-8">
+                            <div class="booking-form">
+                                <form id="carWashForm">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="telephoneNumber">Telephone Number:</label>
+                                            <input type="text" class="form-control" id="telephoneNumber"
+                                                name="telephoneNumber">
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="serviceType">Select Service Type:</label>
+                                            <select class="form-select" id="serviceType" name="serviceType">
+                                                <option value="" disabled selected>Please Choose</option>
+                                                <option value="carWash">Car Wash</option>
+                                                <option value="carRepair">Car Repair</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="vehicleNumber">Vehicle Number:</label>
+                                            <input type="text" class="form-control" id="vehicleNumber" name="vehicleNumber">
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="bookingDate">Select Date:</label>
+                                            <input type="date" class="form-control" id="bookingDate" name="bookingDate">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="carType">Select Car Type:</label>
+                                            <select class="form-select" id="carType" name="carType">
+                                                <option value="" disabled selected>Please Choose</option>
+                                                <option value="smallCar">Small Car</option>
+                                                <option value="SUV">SUV</option>
+                                                <option value="van">Van</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="bookingTime">Select Time:</label>
+                                            <select class="form-select" id="bookingTime" name="bookingTime">
+                                                <option value="" disabled selected>Please Choose</option>
+                                                <!-- Dynamically generate time options in 12-hour format -->
+                                                <script>
+                                                    for (let i = 8; i <= 18; i++) {
+                                                        var hour = i % 12 || 12;
+                                                        var suffix = i < 12 ? 'AM' : 'PM';
+
+                                                        document.write('<option value="' + i + ':00 ' + suffix + '">' + hour + ':00 ' + suffix + '</option>');
+                                                        document.write('<option value="' + i + ':30 ' + suffix + '">' + hour + ':30 ' + suffix + '</option>');
+                                                    }
+                                                </script>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="specialInstructions">Special Instructions (If Any):</label>
+                                        <textarea class="form-control" id="specialInstructions"
+                                            name="specialInstructions" rows="3"></textarea>
+                                    </div>
+                                </form>
+                                <div id="error-message" class="error-message"></div>
+                            </div>
+                        </div>
+                        <!-- Booking Form End -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="validateBooking()">Save Booking</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="table-responsive mt-4">
@@ -69,10 +171,6 @@
                 </tbody>
             </table>
         </div>
-
-        <div class="back-btn">
-            <center><a href="booking2.php" class="btn btn-primary">Back to Booking</a></center>
-        </div>
     </div>
 
     <!-- Modal -->
@@ -81,7 +179,8 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><strong>Customer name: </strong><span id="customerUsername"></span></h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><strong>Customer name: </strong><span
+                            id="customerUsername"></span></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -125,6 +224,61 @@
 
 <!-- JavaScript code -->
 <script>
+    // Add your validation logic here
+    function validateBooking() {
+        // Get form elements
+        var serviceType = document.getElementById("serviceType").value;
+        var carType = document.getElementById("carType").value;
+        var bookingDate = document.getElementById("bookingDate").value;
+        var bookingTime = document.getElementById("bookingTime").value;
+        var telephoneNumber = document.getElementById("telephoneNumber").value;
+        var vehicleNumber = document.getElementById("vehicleNumber").value;
+        var specialInstructions = document.getElementById("specialInstructions").value;
+
+        // Validate form inputs
+        if (
+            serviceType === "" ||
+            carType === "" ||
+            bookingDate === "" ||
+            bookingTime === "" ||
+            telephoneNumber === "" ||
+            vehicleNumber === ""
+        ) {
+            alert("All fields are required.");
+        } else {
+            document.getElementById("error-message").innerHTML = "";
+
+            // Determine price based on car type
+            var priceRange = getPriceRange(carType);
+
+            // Validate time range (8 am to 6 pm)
+            var selectedHour = parseInt(bookingTime.split(":")[0]);
+            var selectedMinutes = parseInt(bookingTime.split(":")[1]);
+
+            if (
+                (selectedHour > 8 || (selectedHour === 8 && selectedMinutes >= 0)) &&
+                (selectedHour < 18 || (selectedHour === 18 && selectedMinutes <= 0))
+            ) {
+                    saveBooking();
+            } else {
+                alert("Please select a time between 8 am and 6 pm.");
+            }
+        }
+    }
+
+    // Function to get the price range based on car type
+    function getPriceRange(carType) {
+        switch (carType) {
+            case "smallCar":
+                return "RM 12-15";
+            case "SUV":
+            case "van":
+                return "RM 20-25";
+            default:
+                return "N/A";
+        }
+    }
+
     $(document).ready(function () {
         // Load initial booking data when the page loads
         loadBookingHistory();
@@ -217,5 +371,63 @@
                 console.error('Error fetching booking details:', error);
             }
         });
+    }
+
+    function addbooking(){
+        $('#addBookingModal').modal('show');
+    };
+
+    function saveBooking() {
+        // Gather the form data
+        let formData = {
+            serviceType: $('#serviceType').val(),
+            carType: $('#carType').val(),
+            bookingDate: $('#bookingDate').val(),
+            bookingTime: $('#bookingTime').val(),
+            telephoneNumber: $('#telephoneNumber').val(),
+            vehicleNumber: $('#vehicleNumber').val(),
+            specialInstructions: $('#specialInstructions').val()
+        };
+
+        // Send an AJAX request to save the booking data
+        $.ajax({
+            url: 'ajaxManager.php',
+            type: 'POST',
+            data: {
+                'request': 'saveBooking',
+                serviceType: $('#serviceType').val(),
+                carType: $('#carType').val(),
+                bookingDate: $('#bookingDate').val(),
+                bookingTime: $('#bookingTime').val(),
+                telephoneNumber: $('#telephoneNumber').val(),
+                vehicleNumber: $('#vehicleNumber').val(),
+                specialInstructions: $('#specialInstructions').val()
+            },
+            success: function (data) {
+                // Handle the success response here (if needed)
+                console.log('Booking saved successfully:', data);
+                
+                // Close the modal after successful booking (if needed)
+                $('#addBookingModal').modal('hide');
+
+                // Clear the form fields
+                clearFormFields();
+            },
+            error: function (error) {
+                // Handle the error response here
+                console.error('Error saving booking:', error);
+            }
+        });
+    }
+
+    function clearFormFields() {
+        // Reset the form fields to their default values or empty
+        $('#serviceType').val('');
+        $('#carType').val('');
+        $('#bookingDate').val('');
+        $('#bookingTime').val('');
+        $('#telephoneNumber').val('');
+        $('#vehicleNumber').val('');
+        $('#specialInstructions').val('');
     }
 </script>

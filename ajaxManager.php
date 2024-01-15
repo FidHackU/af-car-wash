@@ -14,6 +14,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $bookingId = $_POST['bookingId'];
         viewBooking($conn, $bookingId);
     }
+
+    if ($_POST['request'] == 'saveBooking') {
+        // Retrieve values from the $_POST array
+        $telephoneNumber = $_POST['telephoneNumber'];
+        $vehicleNumber = $_POST['vehicleNumber'];
+        $serviceType = $_POST['serviceType'];
+        $carType= $_POST['carType'];
+        $bookingDate = $_POST['bookingDate'];
+        $bookingTime = $_POST['bookingTime'];
+        $specialInstructions = $_POST['specialInstructions'];
+        saveBooking($conn, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions);
+    }
 }
 
 function loadBookingData($conn) {
@@ -97,4 +109,18 @@ function viewBooking($conn, $bookingId){
     }
 }
 
+function saveBooking($conn, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions){
+    // Prepare SQL statement to prevent SQL injection
+    $stmt = $conn->prepare("INSERT INTO booking (phone, vehicle, serviceType, carType, date, time, special) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssss", $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions);
 
+    // Execute the statement and check for errors
+    if ($stmt->execute()) {
+        echo "New record created successfully";
+    } else {
+        echo "Failed to send " . $stmt->error;
+    }
+
+    // Close the statement
+    $stmt->close();
+}
