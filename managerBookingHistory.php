@@ -136,9 +136,9 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="specialInstructions">Special Instructions (If Any):</label>
-                                        <textarea class="form-control" id="specialInstructions"
-                                            name="specialInstructions" rows="3"></textarea>
+                                        <label for="addSpecialInstructions">Special Instructions (If Any):</label>
+                                        <textarea class="form-control" id="addSpecialInstructions"
+                                            name="addSpecialInstructions" rows="3"></textarea>
                                     </div>
                                 </form>
                                 <div id="error-message" class="error-message"></div>
@@ -224,6 +224,61 @@
 
 <!-- JavaScript code -->
 <script>
+    //MODAL FORM FOR ADD BOOKING
+    function validateBooking() {
+        // Get form elements
+        var serviceType = document.getElementById("addServiceType").value;
+        var carType = document.getElementById("addCarType").value;
+        var bookingDate = document.getElementById("addBookingDate").value;
+        var bookingTime = document.getElementById("addBookingTime").value;
+        var telephoneNumber = document.getElementById("addTelephoneNumber").value;
+        var vehicleNumber = document.getElementById("addVehicleNumber").value;
+        var specialInstructions = document.getElementById("addSpecialInstructions").value;
+
+        // Validate form inputs
+        if (
+            addServiceType === "" ||
+            addCarType === "" ||
+            addBookingDate === "" ||
+            addBookingTime === "" ||
+            addTelephoneNumber === "" ||
+            addVehicleNumber === ""
+        ) {
+            alert("All fields are required.");
+        } else {
+            document.getElementById("error-message").innerHTML = "";
+
+            // Determine price based on car type
+            var priceRange = getPriceRange(carType);
+
+            // Validate time range (8 am to 6 pm)
+            var selectedHour = parseInt(bookingTime.split(":")[0]);
+            var selectedMinutes = parseInt(bookingTime.split(":")[1]);
+
+            if (
+                (selectedHour > 8 || (selectedHour === 8 && selectedMinutes >= 0)) &&
+                (selectedHour < 18 || (selectedHour === 18 && selectedMinutes <= 0))
+            ) {
+                    saveBooking();
+            } else {
+                alert("Please select a time between 8 am and 6 pm.");
+            }
+        }
+    }
+
+    // Function to get the price range based on car type
+    function getPriceRange(carType) {
+        switch (carType) {
+            case "smallCar":
+                return "RM 12-15";
+            case "SUV":
+            case "van":
+                return "RM 20-25";
+            default:
+                return "N/A";
+        }
+    }
+    
     $(document).ready(function () {
         // Load initial booking data when the page loads
         loadBookingHistory();
@@ -318,61 +373,6 @@
                 console.error('Error fetching booking details:', error);
             }
         });
-    }
-
-    //MODAL FORM FOR ADD BOOKING
-    function validateBooking() {
-        // Get form elements
-        var serviceType = document.getElementById("serviceType").value;
-        var carType = document.getElementById("carType").value;
-        var bookingDate = document.getElementById("bookingDate").value;
-        var bookingTime = document.getElementById("bookingTime").value;
-        var telephoneNumber = document.getElementById("telephoneNumber").value;
-        var vehicleNumber = document.getElementById("vehicleNumber").value;
-        var specialInstructions = document.getElementById("specialInstructions").value;
-
-        // Validate form inputs
-        if (
-            serviceType === "" ||
-            carType === "" ||
-            bookingDate === "" ||
-            bookingTime === "" ||
-            telephoneNumber === "" ||
-            vehicleNumber === ""
-        ) {
-            alert("All fields are required.");
-        } else {
-            document.getElementById("error-message").innerHTML = "";
-
-            // Determine price based on car type
-            var priceRange = getPriceRange(carType);
-
-            // Validate time range (8 am to 6 pm)
-            var selectedHour = parseInt(bookingTime.split(":")[0]);
-            var selectedMinutes = parseInt(bookingTime.split(":")[1]);
-
-            if (
-                (selectedHour > 8 || (selectedHour === 8 && selectedMinutes >= 0)) &&
-                (selectedHour < 18 || (selectedHour === 18 && selectedMinutes <= 0))
-            ) {
-                    saveBooking();
-            } else {
-                alert("Please select a time between 8 am and 6 pm.");
-            }
-        }
-    }
-
-    // Function to get the price range based on car type
-    function getPriceRange(carType) {
-        switch (carType) {
-            case "smallCar":
-                return "RM 12-15";
-            case "SUV":
-            case "van":
-                return "RM 20-25";
-            default:
-                return "N/A";
-        }
     }
 
     function addbooking(){
