@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    
+
     <?php include 'includes/header.php'; ?>
 </head>
 
@@ -149,6 +149,30 @@
                                     <label for="specialInstructions">Special Instructions (If Any):</label>
                                     <textarea class="form-control" id="specialInstructions" name="specialInstructions"
                                         rows="3"></textarea>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="cost">Cost:</label>
+                                        <input class="form-control" id="cost" name="cost"></input>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="invoiceNumber">Invoice Number(If Payment Done):</label>
+                                        <input class="form-control" id="invoiceNumber" name="invoiceNumber"></input>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="paymentStatus">Payment Status:</label>
+                                        <select class="form-control" id="paymentStatus" name="paymentStatus"></select>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="receiptNumber">Receipt Number(If Payment Done):</label>
+                                        <input class="form-control" id="receiptNumber" name="receiptNumber"></input>
+                                    </div>
                                 </div>
                             </form>
                             <div id="error-message" class="error-message"></div>
