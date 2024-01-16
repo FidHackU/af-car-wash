@@ -116,22 +116,28 @@
                 '<td>' + row['time'] + '</td>' +
                 '<td>' + row['bookingStatus'] + '</td>' + // Display bookingStatus from data
                 '<td>' +
-                '<button class="btn btn-primary" onclick="approveBooking(\'' + row['booking_id'] + '\')">Approve</button>' +
-                '<button class="btn btn-danger ml-1" onclick="cancelBooking(\'' + row['booking_id'] + '\')">Cancel</button>' +
+                '<button class="btn btn-primary" onclick="approveBooking(\'' + row['booking_id'] + '\', \'' + row['email'] + '\', \'' + row['vehicle'] + '\', \'' + row['serviceType'] + '\', \'' + row['special'] + '\', \'' + row['date'] + '\', \'' + row['time'] + '\')">Approve</button>' +
+                '<button class="btn btn-danger ml-1" onclick="cancelBooking(\'' + row['booking_id'] + '\', \'' + row['email'] + '\', \'' + row['vehicle'] + '\', \'' + row['serviceType'] + '\', \'' + row['special'] + '\', \'' + row['date'] + '\', \'' + row['time'] + '\')">Cancel</button>' +
                 '</td>' +
                 '<td><textarea class="remarks-textarea" placeholder="Add remarks..."></textarea></td>' +
                 '</tr>');
         });
     }
 
-    function approveBooking(bookingId) {
+    function approveBooking(bookingId, email, vehicleNumber, serviceType, specialInstructions, date, time) {
         // Send an AJAX request to approve the booking
         $.ajax({
             url: 'ajaxEmployee.php',
             type: 'POST',
             data: {
                 'request': 'approveBooking',
-                bookingId: bookingId
+                bookingId: bookingId,
+                email: email,
+                vehicleNumber: vehicleNumber,
+                serviceType: serviceType,
+                specialInstructions: specialInstructions,
+                date: date,
+                time: time
             },
             success: function(data) {
                 console.log(data);
@@ -147,14 +153,20 @@
         });
     }
 
-    function cancelBooking(bookingId) {
+    function cancelBooking(bookingId, email, vehicleNumber, serviceType, specialInstructions, date, time) {
         // Send an AJAX request to cancel the booking
         $.ajax({
             url: 'ajaxEmployee.php',
             type: 'POST',
             data: {
                 'request': 'cancelBooking',
-                bookingId: bookingId
+                bookingId: bookingId,
+                email: email,
+                vehicleNumber: vehicleNumber,
+                serviceType: serviceType,
+                specialInstructions: specialInstructions,
+                date: date,
+                time: time
             },
             success: function(data) {
                 console.log(data);
