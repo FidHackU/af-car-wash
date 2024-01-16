@@ -97,12 +97,14 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="addVehicleNumber">Vehicle Number:</label>
-                                            <input type="text" class="form-control" id="addVehicleNumber" name="addVehicleNumber">
+                                            <input type="text" class="form-control" id="addVehicleNumber"
+                                                name="addVehicleNumber">
                                         </div>
 
                                         <div class="form-group col-md-6">
                                             <label for="addBookingDate">Select Date:</label>
-                                            <input type="date" class="form-control" id="addBookingDate" name="addBookingDate">
+                                            <input type="date" class="form-control" id="addBookingDate"
+                                                name="addBookingDate">
                                         </div>
                                     </div>
 
@@ -259,7 +261,7 @@
                 (selectedHour > 8 || (selectedHour === 8 && selectedMinutes >= 0)) &&
                 (selectedHour < 18 || (selectedHour === 18 && selectedMinutes <= 0))
             ) {
-                    saveBooking();
+                saveBooking();
             } else {
                 alert("Please select a time between 8 am and 6 pm.");
             }
@@ -278,10 +280,12 @@
                 return "N/A";
         }
     }
-    
+
     $(document).ready(function () {
         // Load initial booking data when the page loads
         loadBookingHistory();
+        clearFormFields();
+
         // Search functionality using jQuery
         $('#searchInput').on('keyup', function () {
             const value = $(this).val().toLowerCase();
@@ -375,34 +379,52 @@
         });
     }
 
-    function addbooking(){
+    function addbooking() {
         $('#addBookingModal').modal('show');
     };
 
     function saveBooking() {
+        // Get the values of the selected options
+        var serviceType = $('#addServiceType').val();
+        var carType = $('#addCarType').val();
+        var bookingDate = $('#addBookingDate').val();
+        var bookingTime = $('#addBookingTime').val();
+
         // Send an AJAX request to save the booking data
         $.ajax({
             url: 'ajaxManager.php',
             type: 'POST',
             data: {
                 'request': 'saveBooking',
-                serviceType: $('#addServiceType').val(),
-                carType: $('#addCarType').val(),
-                bookingDate: $('#addBookingDate').val(),
-                bookingTime: $('#addBookingTime').val(),
+                serviceType: serviceType,
+                carType: carType,
+                bookingDate: bookingDate,
+                bookingTime: bookingTime,
                 telephoneNumber: $('#addTelephoneNumber').val(),
                 vehicleNumber: $('#addVehicleNumber').val(),
                 specialInstructions: $('#addSpecialInstructions').val()
             },
             success: function (data) {
-                // Handle the success response here (if needed)
+                // Handle the success response here
                 console.log('Booking saved successfully:', data);
-                
-                // Close the modal after successful booking (if needed)
+
+                // Close the modal after successful booking
                 $('#addBookingModal').modal('hide');
 
                 // Clear the form fields
                 clearFormFields();
+
+                // Display a SweetAlert2 confirmation message with service type, car type, date, and time
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Booking Saved',
+                    html: `Service Type: ${serviceType}<br>Car Type: ${carType}<br>Date: ${bookingDate}<br>Time: ${bookingTime}`,
+                    showConfirmButton: false,
+                    // timer: 10000 // Automatically close after 10 seconds
+                });
+
+                // Optionally, you can reload the booking history to update the table
+                loadBookingHistory();
             },
             error: function (error) {
                 // Handle the error response here
@@ -410,6 +432,7 @@
             }
         });
     }
+
 
     function clearFormFields() {
         // Reset the form fields to their default values or empty

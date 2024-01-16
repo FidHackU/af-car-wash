@@ -54,6 +54,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Date</th>
+                        <th>Time</th>
                         <th>Status</th>
                         <th>Action</th>
                         <th>Remarks</th>
@@ -112,6 +113,7 @@
                 '<td>' + row['username'] + '</td>' +
                 '<td>' + row['email'] + '</td>' +
                 '<td>' + row['date'] + '</td>' +
+                '<td>' + row['time'] + '</td>' +
                 '<td>' + row['bookingStatus'] + '</td>' + // Display bookingStatus from data
                 '<td>' +
                 '<button class="btn btn-primary" onclick="approveBooking(\'' + row['booking_id'] + '\')">Approve</button>' +

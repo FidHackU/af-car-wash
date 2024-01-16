@@ -28,13 +28,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $customer_id = '7';
         saveBooking($conn, $customer_id, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions);
     }
+
+    if ($_POST['request'] == 'deleteBooking') {
+        $bookingId = $_POST['bookingId'];
+        deleteBooking($conn, $bookingId);
+    }
 }
 
 function loadBookingData($conn) {
     $sql = "SELECT booking.id AS booking_id, customer.id AS customer_id,booking.*, customer.*
             FROM booking
             INNER JOIN customer ON booking.customer_id = customer.id
-            WHERE bookingStatus = 'Approved' OR bookingStatus = 'Cancelled'
+            WHERE bookingStatus = 'Approved'
             ORDER BY DATE_FORMAT(`date`, '%Y-%m-%d %H:%i:%s') ASC";
     $stmt = mysqli_stmt_init($conn);
 
@@ -126,3 +131,19 @@ function saveBooking($conn, $customer_id, $telephoneNumber, $vehicleNumber, $ser
     // Close the statement
     $stmt->close();
 }
+
+function deleteBooking($conn, $bookingId){
+    // Prepare SQL statement to prevent SQL injection
+    $stmt = $conn->prepare("DELETE FROM booking WHERE id = ?;");
+    $stmt->bind_param("i", $bookingId);
+
+    // Execute the statement and check for errors
+    if ($stmt->execute()) {
+        echo "Booking Deleted Successfully";
+    } else {
+        echo "Failed to Delete Booking" . $stmt->error;
+    }
+
+    // Close the statement
+    $stmt->close();
+};
