@@ -31,7 +31,7 @@
                     <a href="forgotAdmin.php">Forgot your password?</a>
                     <div class="btn-group" style="width:100%">
                     <button style="width:50%; margin-right: 10px;" type="submit" name="role" value="employee">Employee</button>
-                    <button style="width:50%" type="submit" name="role" value="admin">Manager</button>
+                    <button style="width:50%" type="submit" name="role" value="manager">Manager</button>
                     </div>
                     <p>Log In as <span><a href="login.php">Customer</a></span><p></p>
                 </form>

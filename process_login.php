@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $hashedPassword = $row['password'];
+        $id = $row['id'];
 
         // Verify the entered password against the hashed password (use password_verify only when we have the hashed password done)
         if (password_verify($password, $hashedPassword)) {
@@ -23,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Set session variables on successful login
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $username;
+            $_SESSION['id'] = $id;
             header("location: afcarwash.php");
         } else {
             // Incorrect password
@@ -40,5 +42,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // If the form is not submitted, return an error
     echo json_encode(['status' => 'error', 'message' => 'Invalid request']);
 }
-
-

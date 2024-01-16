@@ -12,14 +12,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $bookingTime = $_POST['bookingTime'];
     $specialInstructions = $_POST['specialInstructions'];
 
+    $id = $_SESSION['id'];
     $_SESSION['serviceType'] = $serviceType;
     $_SESSION['carType'] = $carType;
     $_SESSION['bookingDate'] = $bookingDate;
     $_SESSION['bookingTime'] = $bookingTime;
 
     // Prepare SQL statement to prevent SQL injection
-    $stmt = $conn->prepare("INSERT INTO booking (phone,vehicle,serviceType,carType,date,time,special) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssss", $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate,$bookingTime, $specialInstructions );
+    $stmt = $conn->prepare("INSERT INTO booking (customer_id, phone,vehicle,serviceType,carType,date,time,special) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssssss", $id, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate ,$bookingTime, $specialInstructions );
 
     // Execute the statement and check for errors
     if ($stmt->execute()) {

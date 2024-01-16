@@ -275,10 +275,10 @@
                                 <a class="btn btn-custom" href="">Book Now</a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
-        </div>-->
+        </div>
         <!-- Price End -->
         
         
@@ -348,7 +348,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-5"></div>
                 </div>
             </div>
         </div>
