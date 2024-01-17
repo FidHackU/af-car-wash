@@ -231,9 +231,19 @@
                                     <li><i class="far fa-times-circle"></i>Window Wiping</li>
                                 </ul>
                             </div>
-                            <div class="price-footer">
-                                <a class="btn btn-custom" href="login.php">Book Now</a>
-                            </div>
+                            <?php
+                        if (isset($_SESSION['username'])) {
+                            // If the user is logged in, display 'Logout'
+                            echo '<div class="price-footer">
+                            <a class="btn btn-custom" href="booking2.php">Book Now</a>
+                        </div>';
+                        } else {
+                            //Right-aligned Login link with Dropdown
+                            echo '<div class="price-footer">
+                            <a class="btn btn-custom" href="login.php">Book Now</a>
+                        </div>';
+                        }
+                        ?>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -251,9 +261,19 @@
                                     <li><i class="far fa-check-circle"></i>Window Wiping</li>
                                 </ul>
                             </div>
-                            <div class="price-footer">
-                                <a class="btn btn-custom" href="login.php">Book Now</a>
-                            </div>
+                            <?php
+                        if (isset($_SESSION['username'])) {
+                            // If the user is logged in, display 'Logout'
+                            echo '<div class="price-footer">
+                            <a class="btn btn-custom" href="booking2.php">Book Now</a>
+                        </div>';
+                        } else {
+                            //Right-aligned Login link with Dropdown
+                            echo '<div class="price-footer">
+                            <a class="btn btn-custom" href="login.php">Book Now</a>
+                        </div>';
+                        }
+                        ?>
                         </div>
                     </div>
                    <!-- <div class="col-md-4">
