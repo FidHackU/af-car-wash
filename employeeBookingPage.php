@@ -57,7 +57,6 @@
                         <th>Time</th>
                         <th>Status</th>
                         <th>Action</th>
-                        <th>Remarks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,7 +118,6 @@
                 '<button class="btn btn-primary" onclick="approveBooking(\'' + row['booking_id'] + '\', \'' + row['email'] + '\', \'' + row['vehicle'] + '\', \'' + row['serviceType'] + '\', \'' + row['special'] + '\', \'' + row['date'] + '\', \'' + row['time'] + '\')">Approve</button>' +
                 '<button class="btn btn-danger ml-1" onclick="cancelBooking(\'' + row['booking_id'] + '\', \'' + row['email'] + '\', \'' + row['vehicle'] + '\', \'' + row['serviceType'] + '\', \'' + row['special'] + '\', \'' + row['date'] + '\', \'' + row['time'] + '\')">Cancel</button>' +
                 '</td>' +
-                '<td><textarea class="remarks-textarea" placeholder="Add remarks..."></textarea></td>' +
                 '</tr>');
         });
     }

@@ -61,7 +61,6 @@
                         <th>Time</th>
                         <th>Status</th>
                         <th>Action</th>
-                        <th>Remarks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -166,7 +165,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="paymentStatus">Payment Status:</label>
-                                        <select class="form-control" id="paymentStatus" name="paymentStatus"></select>
+                                        <input class="form-control" id="paymentStatus" name="paymentStatus"></input>
                                     </div>
 
                                     <div class="form-group col-md-6">
@@ -249,15 +248,27 @@
                 '<td>' + row['time'] + '</td>' +
                 '<td>' + row['bookingStatus'] + '</td>' + // Display bookingStatus from data
                 '<td>' +
-                '<button class="btn btn-primary ml-1" onclick="editBooking(\'' + row['booking_id'] + '\', \'' + row['serviceType'] + '\', \'' + row['carType'] + '\', \'' + row['date'] + '\', \'' + row['time'] + '\', \'' + row['phone'] + '\', \'' + row['vehicle'] + '\', \'' + row['special'] + '\')">Edit</button>' +
+                '<button class="btn btn-primary ml-1" onclick="editBookingModal(' +
+                '\'' + row['booking_id'] + '\',' +
+                '\'' + row['serviceType'] + '\',' +
+                '\'' + row['carType'] + '\',' +
+                '\'' + row['date'] + '\',' +
+                '\'' + row['time'] + '\',' +
+                '\'' + row['phone'] + '\',' +
+                '\'' + row['vehicle'] + '\',' +
+                '\'' + row['special'] + '\',' +
+                '\'' + row['cost'] + '\',' +
+                '\'' + row['invoiceNumber'] + '\',' +
+                '\'' + row['paymentStatus'] + '\',' +
+                '\'' + row['receiptNumber'] + '\'' +
+                ')">Edit</button>' +
                 '<button class="btn btn-danger ml-1" onclick="deleteBooking(\'' + row['booking_id'] + '\')">Delete</button>' +
                 '</td>' +
-                '<td><textarea class="remarks-textarea" placeholder="Add remarks..."></textarea></td>' +
                 '</tr>');
         });
     }
 
-    function editBooking(bookingId, serviceType, carType, bookingDate, bookingTime, telephoneNumber, vehicleNumber, specialInstructions) {
+    function editBookingModal(bookingId, serviceType, carType, bookingDate, bookingTime, telephoneNumber, vehicleNumber, specialInstructions, cost, invoiceNumber, paymentStatus, receiptNumber) {
         // You can add logic here to handle editing of the booking
         console.log('Edit Booking:', bookingId, serviceType, carType, bookingDate, bookingTime, telephoneNumber, vehicleNumber, specialInstructions);
         // Prepopulate the form fields with the booking data
@@ -268,6 +279,21 @@
         $('#telephoneNumber').val(telephoneNumber);
         $('#vehicleNumber').val(vehicleNumber);
         $('#specialInstructions').val(specialInstructions);
+        $('#cost').val(cost);
+        $('#invoiceNumber').val(invoiceNumber);
+        $('#paymentStatus').val(paymentStatus);
+        $('#receiptNumber').val(receiptNumber);
+
+        // Define a closure to capture the bookingId
+        function saveBookingClosure() {
+            // Pass the bookingId to the editBooking function
+            editBooking(bookingId);
+        }
+
+        // Attach the click event handler to the "Save Booking" button
+        $('#editBookingModal').find('.btn-primary').off('click').on('click', saveBookingClosure);
+
+        //Show editBookingModal
         $('#editBookingModal').modal('show');
     }
 
@@ -290,6 +316,137 @@
         }
 
         return formattedTime;
+    }
+
+    function validateBooking() {
+        // Get form elements
+        var serviceType = $('#serviceType').val();
+        var carType = $('#carType').val();
+        var bookingDate = $('#bookingDate').val();
+        var bookingTime = $('#bookingTime').val();
+        var telephoneNumber = $('#telephoneNumber').val();
+        var vehicleNumber = $('#vehicleNumber').val();
+        var specialInstructions = $('#specialInstructions').val();
+        var cost = $('#cost').val();
+        var invoiceNumber = $('#invoiceNumber').val();
+        var paymentStatus = $('#paymentStatus').val();
+        var receiptNumber = $('#receiptNumber').val();
+
+        // Validate form inputs
+        if (
+            serviceType === "" ||
+            carType === "" ||
+            bookingDate === "" ||
+            bookingTime === "" ||
+            telephoneNumber === "" ||
+            vehicleNumber === ""
+        ) {
+            alert("All fields are required.");
+        } else {
+            $('#error-message').html("");
+
+            // Determine price based on car type
+            var priceRange = getPriceRange(carType);
+
+            // Validate time range (8 am to 6 pm)
+            var selectedHour = parseInt(bookingTime.split(":")[0]);
+            var selectedMinutes = parseInt(bookingTime.split(":")[1]);
+
+            if (
+                (selectedHour > 8 || (selectedHour === 8 && selectedMinutes >= 0)) &&
+                (selectedHour < 18 || (selectedHour === 18 && selectedMinutes <= 0))
+            ) {
+                // editBooking();
+            } else {
+                alert("Please select a time between 8 am and 6 pm.");
+            }
+        }
+    }
+
+    function editBooking(bookingId) {
+        // Get the values of the selected options
+        var serviceType = $('#serviceType').val();
+        var carType = $('#carType').val();
+        var bookingDate = $('#bookingDate').val();
+        var bookingTime = $('#bookingTime').val();
+        var telephoneNumber = $('#telephoneNumber').val();
+        var vehicleNumber = $('#vehicleNumber').val();
+        var specialInstructions = $('#specialInstructions').val();
+        var cost = $('#cost').val();
+        var invoiceNumber = $('#invoiceNumber').val();
+        var paymentStatus = $('#paymentStatus').val();
+        var receiptNumber = $('#receiptNumber').val();
+        console.log(cost, invoiceNumber, paymentStatus, receiptNumber);
+
+        // Send an AJAX request to save the booking data
+        $.ajax({
+            url: 'ajaxManager.php',
+            type: 'POST',
+            data: {
+                'request': 'editBooking',
+                bookingId: bookingId,
+                telephoneNumber: telephoneNumber,
+                vehicleNumber: vehicleNumber,
+                serviceType: serviceType,
+                carType: carType,
+                bookingDate: bookingDate,
+                bookingTime: bookingTime,
+                specialInstructions: specialInstructions,
+                cost: cost,
+                invoiceNumber: invoiceNumber,
+                paymentStatus: paymentStatus,
+                receiptNumber: receiptNumber
+            },
+            success: function (data) {
+                // Handle the success response here
+                console.log('Booking saved successfully:', data);
+
+                // Close the modal after successful booking
+                $('#editBookingModal').modal('hide');
+
+                // Clear the form fields
+                clearFormFields();
+
+                // Display a SweetAlert2 confirmation message with all the details
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Booking Edited',
+                    html: ` Booking Id: ${bookingId}<br>
+                            Service Type: ${serviceType}<br>
+                            Car Type: ${carType}<br>
+                            Date: ${bookingDate}<br>
+                            Time: ${bookingTime}<br>
+                            Telephone Number: ${telephoneNumber}<br>
+                            Vehicle Number: ${vehicleNumber}<br>
+                            Special Instructions: ${specialInstructions}<br>
+                            Cost: ${cost}<br>
+                            Invoice Number: ${invoiceNumber}<br>
+                            Payment Status: ${paymentStatus}<br>
+                            Receipt Number: ${receiptNumber}`,
+                    showConfirmButton: false,
+                    // timer: 10000 // Automatically close after 10 seconds
+                });
+            },
+            error: function (error) {
+                // Handle the error response here
+                console.error('Error saving booking:', error);
+            }
+        });
+    }
+
+    function clearFormFields() {
+        // Reset the form fields to their default values or empty
+        $('#serviceType').val('');
+        $('#carType').val('');
+        $('#bookingDate').val('');
+        $('#bookingTime').val('');
+        $('#telephoneNumber').val('');
+        $('#vehicleNumber').val('');
+        $('#specialInstructions').val('');
+        $('#cost').val('');
+        $('#invoiceNumber').val('');
+        $('#paymentStatus').val('');
+        $('#receiptNumber').val('');
     }
 
     function deleteBooking(bookingId) {
