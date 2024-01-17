@@ -27,7 +27,7 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav">
                         <!-- Home link with image -->
-                        <a href="afcarwash.php" class="nav-item nav-link pr-0">
+                        <a href="index.php" class="nav-item nav-link pr-0">
                             <img src="image\logo.png" class="w-25" alt="">
                         </a>
 

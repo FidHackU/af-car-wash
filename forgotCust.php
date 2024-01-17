@@ -45,7 +45,7 @@
                         <h1>Forgot Password?</h1>
                         <p>We will send you a new password for your account in your email</p>
                         <br>
-                        <button class="ghost"><a href="afcarwash.php" style="color:white;">Back Home</a></button>
+                        <button class="ghost"><a href="index.php" style="color:white;">Back Home</a></button>
                     </div>
                 </div>
             </div>
@@ -75,8 +75,8 @@ function validatesignIn() {
 
     // For demonstration purposes, check if username and password are not empty
     if (username !== '' && password !== '') {
-     // Redirect to the desired page (replace 'afcarwash.php' with your actual login page)
-         window.location.href = 'afcarwash.php';
+     // Redirect to the desired page (replace 'index.php' with your actual login page)
+         window.location.href = 'index.php';
             } else {
                 alert('Please enter both username and password.');
             }

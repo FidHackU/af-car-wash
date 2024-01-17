@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $username;
             $_SESSION['id'] = $id;
-            header("location: afcarwash.php");
+            header("location: index.php");
         } else {
             // Incorrect password
             echo json_encode(['status' => 'error', 'message' => 'Incorrect password']);

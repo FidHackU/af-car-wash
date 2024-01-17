@@ -59,7 +59,7 @@ session_start(); // Start the session to access it
         alert('Logged out successfully!');
         <?php session_destroy(); // Destroy the session ?>
         // Redirect to the login page or any other desired page
-        window.location.href = 'afcarwash.php';
+        window.location.href = 'index.php';
     }
 </script>
 
