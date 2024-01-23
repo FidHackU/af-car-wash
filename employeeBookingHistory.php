@@ -25,7 +25,7 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav">
                         <!-- Home link with image -->
-                        <a href="afcarwash.php" class="nav-item nav-link pr-0">
+                        <a href="index.php" class="nav-item nav-link pr-0">
                             <img src="image\logo.png" class="w-25" alt="">
                         </a>
 
@@ -200,10 +200,10 @@
                 $('#scheduledDate').text(data.date);
                 $('#scheduledTime').text(data.time);
                 $('#status').text(data.bookingStatus);
-                // $('#cost').text(data.cost);
-                // $('#paymentStatus').text(data.payment_status);
-                // $('#invoiceNumber').text(data.invoice_number);
-                // $('#receiptNumber').text(data.receipt_number);
+                $('#cost').text(data.cost);
+                $('#paymentStatus').text(data.paymentStatus);
+                $('#invoiceNumber').text(data.invoiceNumber);
+                $('#receiptNumber').text(data.receiptNumber);
 
                 // Open the modal
                 $('#bookingDetailsModal').modal('show');

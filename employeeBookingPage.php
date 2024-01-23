@@ -27,7 +27,7 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav">
                         <!-- Home link with image -->
-                        <a href="afcarwash.php" class="nav-item nav-link pr-0">
+                        <a href="index.php" class="nav-item nav-link pr-0">
                             <img src="image\logo.png" class="w-25" alt="">
                         </a>
 
@@ -57,7 +57,6 @@
                         <th>Time</th>
                         <th>Status</th>
                         <th>Action</th>
-                        <th>Remarks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,7 +118,6 @@
                 '<button class="btn btn-primary" onclick="approveBooking(\'' + row['booking_id'] + '\', \'' + row['email'] + '\', \'' + row['vehicle'] + '\', \'' + row['serviceType'] + '\', \'' + row['special'] + '\', \'' + row['date'] + '\', \'' + row['time'] + '\')">Approve</button>' +
                 '<button class="btn btn-danger ml-1" onclick="cancelBooking(\'' + row['booking_id'] + '\', \'' + row['email'] + '\', \'' + row['vehicle'] + '\', \'' + row['serviceType'] + '\', \'' + row['special'] + '\', \'' + row['date'] + '\', \'' + row['time'] + '\')">Cancel</button>' +
                 '</td>' +
-                '<td><textarea class="remarks-textarea" placeholder="Add remarks..."></textarea></td>' +
                 '</tr>');
         });
     }

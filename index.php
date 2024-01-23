@@ -25,7 +25,7 @@
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav mr-auto">
-                    <a href="afcarwash.php" class="nav-item nav-link active">Home</a>
+                    <a href="index.php" class="nav-item nav-link active">Home</a>
                     <a href="about.php" class="nav-item nav-link">About</a>
                     <a href="service.php" class="nav-item nav-link">Service</a>
                     <a href="price.php" class="nav-item nav-link">Price</a>
@@ -231,9 +231,19 @@
                                     <li><i class="far fa-times-circle"></i>Window Wiping</li>
                                 </ul>
                             </div>
-                            <div class="price-footer">
-                                <a class="btn btn-custom" href="login.php">Book Now</a>
-                            </div>
+                            <?php
+                        if (isset($_SESSION['username'])) {
+                            // If the user is logged in, display 'Logout'
+                            echo '<div class="price-footer">
+                            <a class="btn btn-custom" href="booking2.php">Book Now</a>
+                        </div>';
+                        } else {
+                            //Right-aligned Login link with Dropdown
+                            echo '<div class="price-footer">
+                            <a class="btn btn-custom" href="login.php">Book Now</a>
+                        </div>';
+                        }
+                        ?>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -251,9 +261,19 @@
                                     <li><i class="far fa-check-circle"></i>Window Wiping</li>
                                 </ul>
                             </div>
-                            <div class="price-footer">
-                                <a class="btn btn-custom" href="login.php">Book Now</a>
-                            </div>
+                            <?php
+                        if (isset($_SESSION['username'])) {
+                            // If the user is logged in, display 'Logout'
+                            echo '<div class="price-footer">
+                            <a class="btn btn-custom" href="booking2.php">Book Now</a>
+                        </div>';
+                        } else {
+                            //Right-aligned Login link with Dropdown
+                            echo '<div class="price-footer">
+                            <a class="btn btn-custom" href="login.php">Book Now</a>
+                        </div>';
+                        }
+                        ?>
                         </div>
                     </div>
                    <!-- <div class="col-md-4">

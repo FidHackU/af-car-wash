@@ -20,13 +20,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $telephoneNumber = $_POST['telephoneNumber'];
         $vehicleNumber = $_POST['vehicleNumber'];
         $serviceType = $_POST['serviceType'];
-        $carType= $_POST['carType'];
+        $carType = $_POST['carType'];
         $bookingDate = $_POST['bookingDate'];
         $bookingTime = $_POST['bookingTime'];
         $specialInstructions = $_POST['specialInstructions'];
+
         //MANAGER ID
         $customer_id = '7';
         saveBooking($conn, $customer_id, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions);
+    }
+
+    if ($_POST['request'] == 'editBooking') {
+        // Retrieve values from the $_POST array
+        $bookingId = $_POST['bookingId'];
+        $telephoneNumber = $_POST['telephoneNumber'];
+        $vehicleNumber = $_POST['vehicleNumber'];
+        $serviceType = $_POST['serviceType'];
+        $carType = $_POST['carType'];
+        $bookingDate = $_POST['bookingDate'];
+        $bookingTime = $_POST['bookingTime'];
+        $specialInstructions = $_POST['specialInstructions'];
+        $cost = $_POST['cost'];
+        $invoiceNumber = $_POST['invoiceNumber'];
+        $paymentStatus = $_POST['paymentStatus'];
+        $receiptNumber = $_POST['receiptNumber'];
+
+        editBooking($conn, $bookingId, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions, $cost, $invoiceNumber, $paymentStatus, $receiptNumber);
     }
 
     if ($_POST['request'] == 'deleteBooking') {
@@ -35,7 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-function loadBookingData($conn) {
+function loadBookingData($conn)
+{
     $sql = "SELECT booking.id AS booking_id, customer.id AS customer_id,booking.*, customer.*
             FROM booking
             INNER JOIN customer ON booking.customer_id = customer.id
@@ -62,7 +82,8 @@ function loadBookingData($conn) {
     echo json_encode($data);
 }
 
-function loadBookingHistory($conn) {
+function loadBookingHistory($conn)
+{
     $sql = "SELECT booking.id AS booking_id, customer.id AS customer_id,booking.*, customer.*
             FROM booking
             INNER JOIN customer ON booking.customer_id = customer.id
@@ -89,12 +110,13 @@ function loadBookingHistory($conn) {
     echo json_encode($data);
 }
 
-function viewBooking($conn, $bookingId){
+function viewBooking($conn, $bookingId)
+{
     $sql = "SELECT booking.id AS booking_id, customer.id AS customer_id, booking.*, customer.*
             FROM booking
             INNER JOIN customer ON booking.customer_id = customer.id
             WHERE booking.id = ?"; // Use 'id' as the placeholder for bookingId
-    
+
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -116,7 +138,8 @@ function viewBooking($conn, $bookingId){
     }
 }
 
-function saveBooking($conn, $customer_id, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions){
+function saveBooking($conn, $customer_id, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions)
+{
     // Prepare SQL statement to prevent SQL injection
     $stmt = $conn->prepare("INSERT INTO booking (customer_id, phone, vehicle, serviceType, carType, date, time, special) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("isssssss", $customer_id, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions);
@@ -132,7 +155,26 @@ function saveBooking($conn, $customer_id, $telephoneNumber, $vehicleNumber, $ser
     $stmt->close();
 }
 
-function deleteBooking($conn, $bookingId){
+function editBooking($conn, $bookingId, $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions, $cost, $invoiceNumber, $paymentStatus, $receiptNumber) {
+    // Create a prepared statement for updating data
+    $stmt = $conn->prepare("UPDATE booking SET phone=?, vehicle=?, serviceType=?, carType=?, date=?, time=?, special=?, cost=?, invoiceNumber=?, paymentStatus=?, receiptNumber=? WHERE id=?");
+
+    // Bind the parameters to the statement
+    $stmt->bind_param("sssssssssssi", $telephoneNumber, $vehicleNumber, $serviceType, $carType, $bookingDate, $bookingTime, $specialInstructions, $cost, $invoiceNumber, $paymentStatus, $receiptNumber, $bookingId);
+
+    // Execute the statement and check for errors
+    if ($stmt->execute()) {
+        echo "Booking record updated successfully";
+    } else {
+        echo "Failed to update booking record: " . $stmt->error;
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+function deleteBooking($conn, $bookingId)
+{
     // Prepare SQL statement to prevent SQL injection
     $stmt = $conn->prepare("DELETE FROM booking WHERE id = ?;");
     $stmt->bind_param("i", $bookingId);
@@ -146,4 +188,5 @@ function deleteBooking($conn, $bookingId){
 
     // Close the statement
     $stmt->close();
-};
+}
+;

@@ -21,7 +21,7 @@
 
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto">
-                            <a href="afcarwash.php" class="nav-item nav-link">Home</a>
+                            <a href="index.php" class="nav-item nav-link">Home</a>
                             <a href="about.php" class="nav-item nav-link active">About</a>
                             <a href="service.php" class="nav-item nav-link">Service</a>
                             <a href="price.php" class="nav-item nav-link">Price</a>
@@ -43,7 +43,7 @@
                         <h2>About AF Car Care & Triple (A) Carwash</h2>
                     </div>
                     <div class="col-12">
-                        <a href="afcarwash.php">Home</a>
+                        <a href="index.php">Home</a>
                         <a href="about.php">About Us</a>
                     </div>
                 </div>

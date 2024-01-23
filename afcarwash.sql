@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 15, 2024 at 03:02 PM
+-- Generation Time: Jan 17, 2024 at 07:50 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -58,22 +58,34 @@ CREATE TABLE `booking` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `special` varchar(128) NOT NULL,
-  `bookingStatus` varchar(128) NOT NULL DEFAULT 'Pending'
+  `bookingStatus` varchar(128) NOT NULL DEFAULT 'Pending',
+  `cost` varchar(128) NOT NULL,
+  `invoiceNumber` varchar(128) NOT NULL,
+  `paymentStatus` varchar(128) NOT NULL,
+  `receiptNumber` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `booking`
 --
 
-INSERT INTO `booking` (`id`, `customer_id`, `phone`, `vehicle`, `serviceType`, `carType`, `date`, `time`, `special`, `bookingStatus`) VALUES
-(14, 2, 172310267, 'SAA 9763 A', 'carWash', 'smallCar', '2024-01-19', '09:30:00', 'Testing', 'Cancelled'),
-(15, 2, 324334324, 'SAA 9763 A', 'carRepair', 'SUV', '2024-01-27', '14:30:00', 'Hey', 'Approved'),
-(17, 6, 172310267, 'SAA 9763 A', 'carRepair', 'SUV', '2024-01-20', '08:30:00', 'Fid', 'Approved'),
-(18, 6, 172310267, 'SAA 9763 A', 'carRepair', 'van', '2024-01-26', '16:00:00', 'TEST', 'Approved'),
-(19, 2, 54554, 'SAA 9763 V', 'carWash', 'smallCar', '2024-01-26', '15:00:00', 'Awim bawe', 'Cancelled'),
-(20, 6, 172310267, '34', 'carRepair', 'SUV', '2024-01-18', '12:00:00', 'Hey', 'Approved'),
-(23, 7, 172310267, 'SAA 9763 A', 'carRepair', 'SUV', '2024-01-31', '08:30:00', 'MANAGER TESTING', 'Approved'),
-(24, 7, 172310267, 'SAA 9763 A', 'carRepair', 'van', '2024-01-31', '09:00:00', 'MANAGER', 'Pending');
+INSERT INTO `booking` (`id`, `customer_id`, `phone`, `vehicle`, `serviceType`, `carType`, `date`, `time`, `special`, `bookingStatus`, `cost`, `invoiceNumber`, `paymentStatus`, `receiptNumber`) VALUES
+(14, 2, 172310267, 'SAA 9763 A', 'carWash', 'smallCar', '2024-01-19', '09:30:00', 'Testing', 'Cancelled', '', '', '', ''),
+(15, 2, 324334324, 'SAA 9763 A', 'carRepair', 'SUV', '2024-01-27', '14:30:00', 'Hey', 'Approved', '', '', '', ''),
+(19, 2, 54554, 'SAA 9763 V', 'carWash', 'smallCar', '2024-01-26', '15:00:00', 'Awim bawe', 'Cancelled', '', '', '', ''),
+(23, 7, 172310267, 'SAA 9763 A', 'carRepair', 'SUV', '2024-01-31', '08:30:00', 'MANAGER TESTING', 'Approved', '', '', '', ''),
+(25, 7, 172310267, 'SAA 9763 A', 'carRepair', 'SUV', '2024-01-31', '08:00:00', 'MAS', 'Approved', '', '', '', ''),
+(27, 6, 0, 'gdg', 'carWash', 'SUV', '2024-01-27', '16:30:00', 'gfdg', 'Approved', '', '', '', ''),
+(31, 6, 123456789, '432', 'carRepair', 'SUV', '2024-01-27', '14:30:00', 'fgd', 'Approved', '', '', '', ''),
+(32, 6, 123456789, 'regg', 'carWash', 'smallCar', '2024-01-27', '14:30:00', 'greg', 'Approved', '', '', '', ''),
+(33, 6, 172310267, '4555555555555555555555555555555555555555555555555555555555555555555555555555555555', 'carWash', 'van', '2024-01-20', '13:30:00', '45', 'Approved', 'rewa', 'rewrw', 'were', 'rwerw'),
+(34, 6, 172310267, 'SAA 9763 A', 'carWash', 'SUV', '2024-02-01', '08:00:00', 'Lol', 'Approved', '', '', '', ''),
+(36, 6, 172310267, 'SAA 9763 A', 'carWash', 'SUV', '2024-02-01', '08:00:00', 'HELLO WORLD', 'Approved', '', '', '', ''),
+(37, 6, 172310267, 'SAA 9763 A', 'carRepair', 'SUV', '2024-02-01', '11:30:00', 'HELLO WORLD ', 'Approved', '', '', '', ''),
+(38, 6, 172310267, 'SAA 9763 V', 'carWash', 'SUV', '2024-02-01', '09:00:00', 'Hello World', 'Cancelled', '', '', '', ''),
+(40, 7, 172310267, 'QAA 9797 C', 'carRepair', 'SUV', '2024-01-25', '16:30:00', 'Heyo', 'Approved', '', '', '', ''),
+(41, 6, 172310267, 'SAA 9763 A', 'carWash', 'SUV', '2024-01-19', '08:00:00', 'HELLO', 'Approved', 'dfsaf', 'fdsfsd', 'fdsf', 'fdsf'),
+(42, 7, 123, 'QAA1777', 'carRepair', 'SUV', '2024-01-20', '08:00:00', 'Manager', 'Pending', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -96,7 +108,10 @@ INSERT INTO `customer` (`id`, `username`, `email`, `password`) VALUES
 (2, 'admin', 'taco0267@gmail.com', '$2y$10$NmtB2mPGAI8ibfU/w0T5M.6QBbmVsfU95vDbv1UG3NkgpLk2BgZRK'),
 (4, 'Ali', 'fidelyong12@gmail.com', '$2y$10$w/TY1UtyzhCc6HDBXRauze4iaOHaqbJYoccIxeiiiy46gDBVAfXwG'),
 (6, 'Fid', 'fidelyong22@gmail.com', '$2y$10$C/lv1THjJm6aud1cexBAV.MnNKCVnvu05TwykD2aH4kQU.rvGg7q2'),
-(7, 'Manager', 'Manager', '-');
+(7, 'Manager', 'Manager', '-'),
+(8, 'fifi', 'abu@gmail.com', '$2y$10$.F5cBy6qceTpEjbdeb9XZePCW/FZjRu6pjd1CmGaeCEBWI4uPr4GS'),
+(9, 'Yogi', 'togi@gmail.com', '$2y$10$zI1I4bG8JjhZdre0.vpFDeDDyCRrc4S5zWvVmigKuvvzMBry3xREW'),
+(10, 'small', 'taco@gmail.com', '$2y$10$pNQgJhQ2zJBLWSK9ZGHo/.gKTEzx/luGDFBq/d4Q0yv/uJtFQ5HZy');
 
 --
 -- Indexes for dumped tables
@@ -135,13 +150,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
