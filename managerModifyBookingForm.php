@@ -194,6 +194,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-c1tAAjOQppz6v8r7Fm5Vv9aDHF49/rvx8+ayyJ99KOTdeM4gdeq5g7yPVNVnpq0Q"
         crossorigin="anonymous"></script>
+    <!-- JS PDF -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
 </body>
 
 </html>
@@ -263,6 +265,21 @@
                 '\'' + row['receiptNumber'] + '\'' +
                 ')">Edit</button>' +
                 '<button class="btn btn-danger ml-1" onclick="deleteBooking(\'' + row['booking_id'] + '\')">Delete</button>' +
+                '<button class="btn btn-secondary ml-1" onclick="downloadBooking(' +
+                '\'' + row['username'] + '\',' +
+                '\'' + row['booking_id'] + '\',' +
+                '\'' + row['serviceType'] + '\',' +
+                '\'' + row['carType'] + '\',' +
+                '\'' + row['date'] + '\',' +
+                '\'' + row['time'] + '\',' +
+                '\'' + row['phone'] + '\',' +
+                '\'' + row['vehicle'] + '\',' +
+                '\'' + row['special'] + '\',' +
+                '\'' + row['cost'] + '\',' +
+                '\'' + row['invoiceNumber'] + '\',' +
+                '\'' + row['paymentStatus'] + '\',' +
+                '\'' + row['receiptNumber'] + '\'' +
+                ')">Download</button>' +
                 '</td>' +
                 '</tr>');
         });
@@ -491,4 +508,72 @@
             }
         });
     }
+
+    function downloadBooking(
+        username,
+        bookingId,
+        serviceType,
+        carType,
+        bookingDate,
+        bookingTime,
+        telephoneNumber,
+        vehicleNumber,
+        specialInstructions,
+        cost,
+        invoiceNumber,
+        paymentStatus,
+        receiptNumber
+    ) {
+        var doc = new jsPDF('landscape');
+
+    // Add a company logo - replace 'logo.jpg' with the path to your logo image
+    // doc.addImage('image/logo.jpg', 'png', 10, 10, 50, 20);
+
+    // Title
+    doc.setFontSize(22);
+    // doc.setFont("Helvetica", "bold");
+    doc.text("Booking Receipt", 120, 15); // Centered title in landscape
+
+    // Customer Information
+    doc.setFontSize(12);
+    // doc.setFont("Helvetica", "normal");
+    doc.text(`Name: ${username}`, 120, 25);
+
+    // Line separator
+    doc.setLineWidth(0.2);
+    doc.line(10, 45, 280, 45);
+
+    // Booking Details - consider using doc.autoTable if available for tabular data
+    var startY = 60;
+    var details = [
+        // `Customer Username: ${username}`,
+        `Booking ID: ${bookingId}`,
+        `Service Type: ${serviceType}`,
+        `Car Type: ${carType}`,
+        `Booking Date: ${bookingDate}`,
+        `Booking Time: ${bookingTime}`,
+        `Telephone Number: ${telephoneNumber}`,
+        `Vehicle Number: ${vehicleNumber}`,
+        `Special Instructions: ${specialInstructions}`,
+        `Cost: ${cost}`,
+        `Invoice Number: ${invoiceNumber}`,
+        `Payment Status: ${paymentStatus}`,
+        `Receipt Number: ${receiptNumber}`
+    ];
+    doc.setFontSize(12);
+    details.forEach((detail, i) => {
+        doc.text(detail, 10, startY + (i * 10));
+    });
+
+    // Footer
+    doc.setFontSize(10);
+    doc.text("Thank you for choosing our service!", 10, 190);
+    doc.text("Contact us: [Your Contact Details]", 10, 200);
+
+    // Save the PDF
+    doc.save(`booking_${bookingId}.pdf`);
+        console.log('Booking Downloaded:', bookingId, serviceType, carType, bookingDate, bookingTime, telephoneNumber, vehicleNumber, specialInstructions);
+        alert('Booking downloaded');
+    }
 </script>
+

@@ -60,7 +60,7 @@ function loadBookingData($conn)
             FROM booking
             INNER JOIN customer ON booking.customer_id = customer.id
             WHERE bookingStatus = 'Approved'
-            ORDER BY DATE_FORMAT(`date`, '%Y-%m-%d %H:%i:%s') ASC";
+            ORDER BY booking.id DESC";
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -88,7 +88,7 @@ function loadBookingHistory($conn)
             FROM booking
             INNER JOIN customer ON booking.customer_id = customer.id
             WHERE bookingStatus = 'Approved' OR bookingStatus = 'Cancelled'
-            ORDER BY DATE_FORMAT(`date`, '%Y-%m-%d %H:%i:%s') ASC";
+            ORDER BY booking.id DESC";
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
