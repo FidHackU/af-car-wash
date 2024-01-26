@@ -49,15 +49,15 @@
                         <h1>Welcome Back!</h1>
                         <p>To keep connected with us please login with your personal info</p>
                         <button class="ghost" id="signIn">Login</button>
-                        <br>
-                        <button class="ghost"><a href="index.php" style="color:white;">Back Home</a></button>
+                        <p>
+                        <a href="index.php" class="btn btn-primary W-100">Back Home</a>
                     </div>
                     <div class="overlay-panel overlay-right">
                         <h1>Hello!</h1>
                         <p>Enter your personal details and start journey with us</p>
                         <button class="ghost" id="signUp">Sign Up</button>
-                        <br>
-                        <button class="ghost"><a href="index.php" style="color:white;">Back Home</a></button>
+                        <p>
+                        <a href="index.php" class="btn btn-primary W-100">Back Home</a>
                     </div>
                 </div>
             </div>

@@ -59,9 +59,7 @@ function createCustomer($conn, $username, $email, $password) {
         exit();    
     }
 
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    mysqli_stmt_bind_param($stmt, "sss", $username, $email, $hashed_password);
+    mysqli_stmt_bind_param($stmt, "sss", $username, $email, $password);
 
     if (mysqli_stmt_execute($stmt)) {
         echo "New record created successfully";

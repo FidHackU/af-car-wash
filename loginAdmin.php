@@ -41,7 +41,8 @@
                     <div class="overlay-panel overlay-right" style="background-color: #5972FE;">
                         <h1>Hello!</h1>
                         <p>Enter your login details to manage bookings</p>
-                        <button><a href="index.php" style="color:white;">Back Home</a></button>
+                        <p>
+                        <a href="index.php" class="btn btn-primary w-100">Back Home</a>
                     </div>
                 </div>
             </div>
