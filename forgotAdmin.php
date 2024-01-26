@@ -91,6 +91,7 @@
 
 
     function forgetPasswordAdmin() {
+        event.preventDefault();
         console.log("SUCCESS FORGET PASSWORD");
 
         // Get the inputted email from the user

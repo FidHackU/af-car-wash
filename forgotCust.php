@@ -99,6 +99,7 @@
 
     //Fid edit
     function forgetPasswordCustomer() {
+        event.preventDefault();
         console.log("SUCCESS FORGET PASSWORD");
 
         // Get the inputted email from the user
