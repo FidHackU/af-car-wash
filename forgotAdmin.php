@@ -107,14 +107,14 @@
             success: function (response) {
                 console.log(response);
                 if (response === 'success') {
-                    // Password reset email sent successfully
-                    alert('Password reset email has been sent to the admin.');
+                    // Admin credentials sent successfully
+                    alert('Admin credentials have been sent to the admin.');
                 } else if (response === 'notfound') {
                     // Admin email not found
                     alert('Error: Admin email not found. Please check the email address.');
                 } else {
                     // An error occurred
-                    alert('Error: Unable to send password reset email.');
+                    alert('Error: Unable to send admin credentials. Please try again later.');
                 }
                 // Reset the form to clear input fields
                 $('#adminEmail').val('');

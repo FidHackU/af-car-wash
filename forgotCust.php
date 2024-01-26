@@ -34,7 +34,7 @@
             </form>
         </div>
         <div class="form-container sign-in-container">
-            <form action="#">
+            <form action="#" id="customerEmailForgetPass">
                 <h1 style="color: black;">Forgot Password?</h1>
                 <input type="text" placeholder="Email" name="email" id="customerEmail" />
                 <button onclick="forgetPasswordCustomer()">Submit</button>
@@ -115,15 +115,18 @@
             success: function (response) {
                 console.log(response);
                 if (response === 'success') {
-                    // Password reset email sent successfully
-                    alert('Password reset email has been sent to your email.');
+                    // Password information sent successfully
+                    alert('Your password information has been sent to your email.');
                 } else if (response === 'notfound') {
                     // Customer email not found
                     alert('Error: Email not found. Please check the email address.');
                 } else {
                     // An error occurred
-                    alert('Error: Unable to send password reset email.');
+                    alert('Error: Unable to send password information. Please try again later.');
                 }
+                // Reset the form to clear input fields
+                $('#customerEmail').val('');
+                $('#customerEmailForgetPass')[0].reset();
             },
             error: function () {
                 // AJAX request failed
