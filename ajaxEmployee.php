@@ -45,7 +45,8 @@ function loadBookingData($conn)
     $sql = "SELECT booking.id AS booking_id, customer.id AS customer_id,booking.*, customer.*
             FROM booking
             INNER JOIN customer ON booking.customer_id = customer.id
-            WHERE bookingStatus = 'PENDING'";
+            WHERE bookingStatus = 'PENDING'
+            ORDER BY booking.id DESC";
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
