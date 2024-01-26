@@ -1,4 +1,16 @@
-<?php include("dbConnection.php"); ?>
+<?php
+include("dbConnection.php");
+session_start();
+
+if (isset($_SESSION["username"]) && $_SESSION["username"] == "employee") {
+    // Code for employee access
+} else {
+    // Access denied, redirect to index page
+    header("Location: index.php");
+    exit(); // Ensure that no further code is executed after the redirect
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

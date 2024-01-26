@@ -1,6 +1,14 @@
 <?php
-session_start(); // Start the session to access it
+session_start();
+
+if (!isset($_SESSION["username"])) {
+    // If no active session, redirect to the login page
+    header("Location: index.php");
+    exit();
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

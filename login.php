@@ -1,4 +1,14 @@
-<?php session_start(); ?>
+<?php
+include("dbConnection.php");
+session_start();
+
+if (isset($_SESSION["username"])) {
+    // If the user is already logged in, redirect to some other page (e.g., dashboard)
+    header("Location: index.php");
+    exit(); // Ensure that no further code is executed after the redirect
+}
+?>
+
 <!DOCtype html>
 <html lang="en">
     <head>

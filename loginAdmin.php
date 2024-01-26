@@ -1,3 +1,26 @@
+<?php
+include("dbConnection.php");
+session_start();
+
+if (isset($_SESSION["username"])) {
+    $username = $_SESSION["username"];
+
+    if ($username == "manager") {
+        // Redirect to manager page
+        header("Location: managerModifyBookingForm.php");
+        exit();
+    } elseif ($username == "employee") {
+        // Redirect to employee page
+        header("Location: employeeBookingPage.php");
+        exit();
+    } else {
+        // If username is not set, or any other condition, redirect to index page
+        header("Location: index.php");
+        exit();
+    }
+} 
+?>
+
 <!DOCtype html>
 <html lang="en">
     <head>
